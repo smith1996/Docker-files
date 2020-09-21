@@ -1,0 +1,11 @@
+Started by user [8mha:////4I7urjrBXOZrdBYqG6/LQczTGgUW0We5BqrNgkW0PDCFAAAAlx+LCAAAAAAAAP9b85aBtbiIQTGjNKU4P08vOT+vOD8nVc83PyU1x6OyILUoJzMv2y+/JJUBAhiZGBgqihhk0NSjKDWzXb3RdlLBUSYGJk8GtpzUvPSSDB8G5tKinBIGIZ+sxLJE/ZzEvHT94JKizLx0a6BxUmjGOUNodHsLgAzWEgZu/dLi1CL9xJTczDwAj6GcLcAAAAA=[0madmin
+Running as SYSTEM
+Building in workspace /var/jenkins_home/workspace/backup-db-to-aws
+
+[SSH] executing...
+Completed 1.8 KiB/1.8 KiB (1.4 KiB/s) with 1 file(s) remainingupload: ../../tmp/db-22-47-46.sql to s3://jenkins-test-peru/db-22-47-46.sql
+
+[SSH] completed
+[SSH] exit-status: 0
+
+Finished: SUCCESS

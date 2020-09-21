@@ -1,0 +1,13 @@
+<?xml version='1.1' encoding='UTF-8'?>
+<fingerprint>
+  <timestamp>2020-09-17 22:29:11.105 UTC</timestamp>
+  <md5sum>411023f354a5960c2927fa35e021c3bd</md5sum>
+  <fileName>Credential id=DB_PASS name=DB_PASS</fileName>
+  <usages>
+    <entry>
+      <string>backup-db-to-aws</string>
+      <ranges>1-11</ranges>
+    </entry>
+  </usages>
+  <facets/>
+</fingerprint>
