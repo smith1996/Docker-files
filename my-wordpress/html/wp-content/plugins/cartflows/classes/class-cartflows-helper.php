@@ -790,4 +790,24 @@ class Cartflows_Helper {
 		return $url;
 	}
 
+	/**
+	 * Create Edit page link for the widgets.
+	 *
+	 * @since x.x.x
+	 * @param string $tab The Tab which has to display.
+	 * @access public
+	 */
+	public static function get_current_page_edit_url( $tab ) {
+
+		$url = add_query_arg(
+			array(
+				'wcf-tab' => $tab,
+			),
+			get_edit_post_link()
+		);
+
+		return $url;
+	}
+
+
 }

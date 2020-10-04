@@ -7,6 +7,7 @@
 
 $checkout_layout = wcf()->options->get_checkout_meta_value( $checkout_id, 'wcf-checkout-layout' );
 $fields_skins    = wcf()->options->get_checkout_meta_value( $checkout_id, 'wcf-fields-skins' );
+
 ?>
 <div id="wcf-embed-checkout-form" class="wcf-embed-checkout-form wcf-embed-checkout-form-<?php echo $checkout_layout; ?> wcf-field-<?php echo $fields_skins; ?>">
 <!-- CHECKOUT SHORTCODE -->

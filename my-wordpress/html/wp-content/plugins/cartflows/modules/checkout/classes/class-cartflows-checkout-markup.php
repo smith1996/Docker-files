@@ -81,6 +81,30 @@ class Cartflows_Checkout_Markup {
 		add_filter( 'woocommerce_cart_item_name', array( $this, 'wcf_add_remove_label' ), 10, 3 );
 
 		add_action( 'woocommerce_before_calculate_totals', array( $this, 'custom_price_to_cart_item' ), 9999 );
+
+		add_action( 'init', array( $this, 'update_woo_actions_ajax' ), 10 );
+
+		$this->elementor_editor_compatibility();
+	}
+
+	/**
+	 * Remove login and registration actions.
+	 */
+	public function update_woo_actions_ajax() {
+
+		add_action( 'cartflows_woo_checkout_update_order_review', array( $this, 'after_the_order_review_ajax_call' ) );
+	}
+
+	/**
+	 * Call the actions after order review ajax call.
+	 *
+	 * @param string $post_data post data woo.
+	 */
+	public function after_the_order_review_ajax_call( $post_data ) {
+
+		if ( isset( $post_data['_wcf_checkout_id'] ) ) { // phpcs:ignore
+			add_filter( 'woocommerce_order_button_text', array( $this, 'place_order_button_text' ), 10, 1 );
+		}
 	}
 
 	/**
@@ -102,6 +126,24 @@ class Cartflows_Checkout_Markup {
 		$args['cancel_return'] = esc_url_raw( $order->get_cancel_order_url_raw( get_permalink( $checkout_id ) ) );
 
 		return $args;
+	}
+
+	/**
+	 * Elementor editor compatibility.
+	 */
+	public function elementor_editor_compatibility() {
+
+		/* Add data */
+
+		add_action(
+			'cartflows_elementor_editor_compatibility',
+			function( $post_id, $elementor_ajax ) {
+
+				add_action( 'cartflows_elementor_before_checkout_shortcode', array( $this, 'before_checkout_shortcode_actions' ) );
+			},
+			10,
+			2
+		);
 	}
 
 	/**
@@ -169,23 +211,28 @@ class Cartflows_Checkout_Markup {
 	/**
 	 * Change order button text .
 	 *
-	 * @param string $woo_button_text place order.
+	 * @param string $button_text place order.
 	 * @return string
 	 */
-	public function place_order_button_text( $woo_button_text ) {
+	public function place_order_button_text( $button_text ) {
 
 		$checkout_id = get_the_ID();
-		if ( ! $checkout_id ) {
-			$checkout_id = ( isset( $_POST['option']['checkout_id'] ) ) ? intval( $_POST['option']['checkout_id'] ) : 0; //phpcs:ignore
+
+		if ( ! $checkout_id && isset( Cartflows_Woo_Hooks::$ajax_data['_wcf_checkout_id'] ) ) {
+
+			$checkout_id = intval( Cartflows_Woo_Hooks::$ajax_data['_wcf_checkout_id'] );
 		}
 
-		$wcf_order_button_text = wcf()->options->get_checkout_meta_value( $checkout_id, 'wcf-checkout-place-order-button-text' );
+		if ( $checkout_id ) {
 
-		if ( ! empty( $wcf_order_button_text ) ) {
-			$woo_button_text = $wcf_order_button_text;
+			$wcf_order_button_text = wcf()->options->get_checkout_meta_value( $checkout_id, 'wcf-checkout-place-order-button-text' );
+
+			if ( ! empty( $wcf_order_button_text ) ) {
+				$button_text = $wcf_order_button_text;
+			}
 		}
 
-		return $woo_button_text;
+		return $button_text;
 	}
 
 	/**
@@ -344,7 +391,7 @@ class Cartflows_Checkout_Markup {
 			return;
 		}
 
-		global $post;
+		global $post, $wcf_step;
 
 		if ( _is_wcf_checkout_type() || _is_wcf_checkout_shortcode() ) {
 
@@ -360,7 +407,7 @@ class Cartflows_Checkout_Markup {
 
 				$global_checkout = intval( Cartflows_Helper::get_common_setting( 'global_checkout' ) );
 
-				if ( ! empty( $global_checkout ) && $checkout_id === $global_checkout ) {
+				if ( ! empty( $global_checkout ) && ( $global_checkout === $wcf_step->get_control_step() ) ) {
 
 					if ( WC()->cart->is_empty() ) {
 						wc_add_notice( __( 'Your cart is currently empty.', 'cartflows' ), 'error' );
@@ -429,7 +476,25 @@ class Cartflows_Checkout_Markup {
 				WC()->cart->empty_cart();
 
 				if ( is_array( $products ) && empty( $products[0]['product'] ) ) {
-					wc_add_notice( __( 'No product is selected. Please select products from the checkout meta settings to continue.', 'cartflows' ), 'error' );
+
+					$a_start = '';
+					$a_close = '';
+
+					if ( current_user_can( 'manage_options' ) ) {
+
+						$a_start = '<a href="' . Cartflows_Helper::get_current_page_edit_url( 'select-product' ) . '" target="_blank">';
+						$a_close = '</a>';
+					}
+
+					wc_add_notice(
+						sprintf(
+							/* translators: %1$1s, %2$2s Link to meta */
+							__( 'No product is selected. Please select products from the %1$1scheckout meta settings%2$2s to continue.', 'cartflows' ),
+							$a_start,
+							$a_close
+						),
+						'error'
+					);
 					return;
 				}
 
@@ -532,9 +597,6 @@ class Cartflows_Checkout_Markup {
 						} else {
 							$wrong_product_notice = __( 'This product can\'t be purchased', 'cartflows' );
 							wc_add_notice( $wrong_product_notice );
-							/**
-							WC()->cart->add_to_cart( $product_id, $quantity );.
-							*/
 						}
 					}
 					$products_new[ $index ] = array(
@@ -565,33 +627,7 @@ class Cartflows_Checkout_Markup {
 
 			add_action( 'wp_enqueue_scripts', array( $this, 'compatibility_scripts' ), 101 );
 
-			/* Show notices if cart has errors */
-			add_action( 'woocommerce_cart_has_errors', 'woocommerce_output_all_notices' );
-
-			add_action( 'woocommerce_checkout_after_customer_details', array( $this, 'order_wrap_div_start' ), 99 );
-
-			add_action( 'woocommerce_checkout_after_order_review', array( $this, 'order_wrap_div_end' ), 99 );
-
-			// Outputting the hidden field in checkout page.
-			add_action( 'woocommerce_after_order_notes', array( $this, 'checkout_shortcode_post_id' ), 99 );
-			add_action( 'woocommerce_login_form_end', array( $this, 'checkout_shortcode_post_id' ), 99 );
-
-			remove_all_actions( 'woocommerce_checkout_billing' );
-			remove_all_actions( 'woocommerce_checkout_shipping' );
-
-			// Hook in actions once.
-			add_action( 'woocommerce_checkout_billing', array( WC()->checkout, 'checkout_form_billing' ) );
-			add_action( 'woocommerce_checkout_shipping', array( WC()->checkout, 'checkout_form_shipping' ) );
-
-			remove_action( 'woocommerce_before_checkout_form', 'woocommerce_checkout_coupon_form' );
-
-			add_action( 'woocommerce_checkout_order_review', array( $this, 'display_custom_coupon_field' ) );
-
-			add_filter( 'woocommerce_checkout_fields', array( $this, 'add_three_column_layout_fields' ) );
-
-			add_filter( 'woocommerce_cart_totals_coupon_html', array( $this, 'remove_coupon_text' ) );
-
-			add_filter( 'woocommerce_order_button_text', array( $this, 'place_order_button_text' ), 10, 1 );
+			$this->before_checkout_shortcode_actions();
 
 			global $post;
 
@@ -603,6 +639,39 @@ class Cartflows_Checkout_Markup {
 
 			do_action( 'cartflows_checkout_before_shortcode', $checkout_id );
 		}
+	}
+
+	/**
+	 * Render checkout ID hidden field.
+	 *
+	 * @return void
+	 */
+	public function before_checkout_shortcode_actions() {
+
+		/* Show notices if cart has errors */
+		add_action( 'woocommerce_cart_has_errors', 'woocommerce_output_all_notices' );
+
+		// Outputting the hidden field in checkout page.
+		add_action( 'woocommerce_after_order_notes', array( $this, 'checkout_shortcode_post_id' ), 99 );
+		add_action( 'woocommerce_login_form_end', array( $this, 'checkout_shortcode_post_id' ), 99 );
+
+		remove_all_actions( 'woocommerce_checkout_billing' );
+		remove_all_actions( 'woocommerce_checkout_shipping' );
+
+		// Hook in actions once.
+		add_action( 'woocommerce_checkout_billing', array( WC()->checkout, 'checkout_form_billing' ) );
+		add_action( 'woocommerce_checkout_shipping', array( WC()->checkout, 'checkout_form_shipping' ) );
+
+		remove_action( 'woocommerce_before_checkout_form', 'woocommerce_checkout_coupon_form' );
+
+		add_action( 'woocommerce_checkout_order_review', array( $this, 'display_custom_coupon_field' ) );
+
+		add_filter( 'woocommerce_checkout_fields', array( $this, 'add_three_column_layout_fields' ) );
+
+		add_filter( 'woocommerce_cart_totals_coupon_html', array( $this, 'remove_coupon_text' ) );
+
+		add_filter( 'woocommerce_order_button_text', array( $this, 'place_order_button_text' ), 10, 1 );
+
 	}
 
 	/**
@@ -646,9 +715,15 @@ class Cartflows_Checkout_Markup {
 
 		do_action( 'cartflows_checkout_scripts' );
 
-		$style = $this->generate_style();
+		$checkout_dynamic_css = apply_filters( 'cartflows_checkout_enable_dynamic_css', true );
 
-		wp_add_inline_style( 'wcf-checkout-template', $style );
+		if ( $checkout_dynamic_css ) {
+
+			$style = $this->generate_style();
+
+			wp_add_inline_style( 'wcf-checkout-template', $style );
+
+		}
 
 	}
 
@@ -1155,25 +1230,6 @@ class Cartflows_Checkout_Markup {
 		return $fields;
 	}
 
-	/**
-	 * Add opening dev
-	 *
-	 * @since 1.0.0
-	 */
-	public function order_wrap_div_start() {
-
-		echo "<div class='wcf-order-wrap'> ";
-	}
-
-	/**
-	 * Add closing dev
-	 *
-	 * @since 1.0.0
-	 */
-	public function order_wrap_div_end() {
-
-		echo '</div> ';
-	}
 	/**
 	 * Remove coupon.
 	 */

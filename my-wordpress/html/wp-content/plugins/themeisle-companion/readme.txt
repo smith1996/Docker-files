@@ -32,7 +32,7 @@ https://www.youtube.com/watch?v=YHhK_twfYB8
 
 You can check out the demo <a href="https://orbitfox.com/#blog" rel="nofollow" target="_blank">here</a> for a more detailed overview of the features.
 
-OrbitFox is a user-centred plugin with an easy-to-use admin panel. One of the most important features is that modules will only be loaded if they meet two conditions. If they are needed and if they are compatible with your existing themes and plugins. This will cut down on the unnecessary bloating of your website. 
+OrbitFox is a user-centred plugin with an easy-to-use admin panel. One of the most important features is that modules will only be loaded if they meet two conditions. If they are needed and if they are compatible with your existing themes and plugins. This will cut down on the unnecessary bloating of your website.
 
 We've also built some fantastic <a href="http://themeisle.com/wordpress-themes/free/" rel="nofollow" target="_blank">free themes</a> that work well with Orbit Fox, check them out.
 
@@ -108,6 +108,20 @@ Activating the Orbit Fox plugin is just like any other plugin. If you've uploade
 5. Social Sharing Module
 
 == Changelog ==
+
+##### [Version 2.9.19](https://github.com/Codeinwp/themeisle-companion/compare/v2.9.18...v2.9.19) (2020-09-25)
+
+* Fix elementor post grid jQuery dependencies
+
+
+
+
+##### [Version 2.9.18](https://github.com/Codeinwp/themeisle-companion/compare/v2.9.17...v2.9.18) (2020-09-21)
+
+- [Fix] Missing FontAwesome icons when Otter Blocks plugin was active
+
+
+
 
 ##### [Version 2.9.17](https://github.com/Codeinwp/themeisle-companion/compare/v2.9.16...v2.9.17) (2020-09-02)
 

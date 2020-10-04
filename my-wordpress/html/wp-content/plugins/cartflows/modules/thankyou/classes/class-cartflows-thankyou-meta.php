@@ -25,6 +25,13 @@ class Cartflows_Thankyou_Meta extends Cartflows_Meta {
 	private static $meta_option = null;
 
 	/**
+	 * Meta Options map key->value map,
+	 *
+	 * @var $meta_option_data
+	 */
+	private static $meta_option_data = array();
+
+	/**
 	 * Initiator
 	 */
 	public static function get_instance() {
@@ -50,21 +57,53 @@ class Cartflows_Thankyou_Meta extends Cartflows_Meta {
 	 */
 	public function init_metabox() {
 
-		add_action( 'add_meta_boxes', array( $this, 'setup_meta_box' ) );
+		add_action( 'add_meta_boxes', array( $this, 'setup_meta_box' ), 10, 2 );
 		add_action( 'save_post', array( $this, 'save_meta_box' ) );
 	}
 
 	/**
 	 *  Setup Metabox
+	 *
+	 * @param string $post_type post type.
+	 * @param object $post post object.
 	 */
-	public function setup_meta_box() {
+	public function setup_meta_box( $post_type, $post ) {
 
 		if ( _is_wcf_thankyou_type() ) {
+
+			$stored_meta = get_post_meta( $post->ID );
+			$thank_meta  = self::get_meta_option( $post->ID );
+
+			// Set stored and override defaults.
+			foreach ( $stored_meta as $key => $value ) {
+				if ( array_key_exists( $key, $thank_meta ) ) {
+					self::$meta_option[ $key ]['default'] = ( isset( $stored_meta[ $key ][0] ) ) ? maybe_unserialize( $stored_meta[ $key ][0] ) : '';
+				} else {
+					self::$meta_option[ $key ]['default'] = ( isset( $stored_meta[ $key ][0] ) ) ? $stored_meta[ $key ][0] : '';
+				}
+			}
+
+			// Get defaults.
+			$new_meta = self::get_meta_option( $post->ID );
+
+			foreach ( $new_meta as $key => $value ) {
+				self::$meta_option_data[ $key ] = $new_meta[ $key ]['default'];
+			}
+
 			add_meta_box(
 				'wcf-thankyou-settings',                // Id.
-				__( 'Thank You Page Settings', 'cartflows' ), // Title.
-				array( $this, 'markup_meta_box' ),      // Callback.
-				wcf()->utils->get_step_post_type(),                 // Post_type.
+				__( 'Thank You Settings', 'cartflows' ), // Title.
+				array( $this, 'settings_markup_meta_box' ),      // Callback.
+				$post_type,                 // Post_type.
+				'normal',                               // Context.
+				'high'                                  // Priority.
+			);
+
+			add_meta_box(
+				'wcf-thankyou-design-settings',                // Id.
+				__( 'Thank You Design', 'cartflows' ), // Title.
+				array( $this, 'design_markup_meta_box' ),      // Callback.
+				$post_type,                 // Post_type.
 				'normal',                               // Context.
 				'high'                                  // Priority.
 			);
@@ -77,38 +116,13 @@ class Cartflows_Thankyou_Meta extends Cartflows_Meta {
 	 * @param  object $post Post object.
 	 * @return void
 	 */
-	public function markup_meta_box( $post ) {
+	public function settings_markup_meta_box( $post ) {
 
 		wp_nonce_field( 'save-nonce-thankyou-step-meta', 'nonce-thankyou-step-meta' );
-		$stored = get_post_meta( $post->ID );
 
-		$checkout_meta = self::get_meta_option( $post->ID );
-
-		// Set stored and override defaults.
-		foreach ( $stored as $key => $value ) {
-			if ( array_key_exists( $key, $checkout_meta ) ) {
-				self::$meta_option[ $key ]['default'] = ( isset( $stored[ $key ][0] ) ) ? maybe_unserialize( $stored[ $key ][0] ) : '';
-			} else {
-				self::$meta_option[ $key ]['default'] = ( isset( $stored[ $key ][0] ) ) ? $stored[ $key ][0] : '';
-			}
-		}
-
-		// Get defaults.
-		$meta = self::get_meta_option( $post->ID );
-
-		/**
-		 * Get options
-		 */
-		$thankyou_data = array();
-
-		foreach ( $meta as $key => $value ) {
-
-			$thankyou_data[ $key ] = $meta[ $key ]['default'];
-		}
-
-		do_action( 'wcf_thankyou_settings_markup_before', $meta );
-		$this->page_header_tab( $thankyou_data, $post->ID );
-		do_action( 'wcf_thankyou_settings_markup_after', $meta );
+		do_action( 'wcf_thankyou_settings_markup_before' );
+		$this->settings_tabs( self::$meta_option_data, $post->ID );
+		do_action( 'wcf_thankyou_settings_markup_after' );
 	}
 
 	/**
@@ -117,33 +131,11 @@ class Cartflows_Thankyou_Meta extends Cartflows_Meta {
 	 * @param  array $options Post meta.
 	 * @param  int   $post_id Post ID.
 	 */
-	public function page_header_tab( $options, $post_id ) {
+	public function settings_tabs( $options, $post_id ) {
 
-		$active_tab = get_post_meta( $post_id, 'wcf-active-tab', true );
-
-		if ( empty( $active_tab ) ) {
-			$active_tab = 'wcf-thankyou-shortcodes';
-		}
+		$active_tab = 'wcf-thankyou-redirect';
 
 		$tabs = array(
-			array(
-				'title' => __( 'Shortcodes', 'cartflows' ),
-				'id'    => 'wcf-thankyou-shortcodes',
-				'class' => 'wcf-thankyou-shortcodes' === $active_tab ? 'wcf-tab wp-ui-text-highlight active' : 'wcf-tab',
-				'icon'  => 'dashicons-editor-code',
-			),
-			array(
-				'title' => __( 'Design', 'cartflows' ),
-				'id'    => 'wcf-thankyou-design',
-				'class' => 'wcf-thankyou-design' === $active_tab ? 'wcf-tab wp-ui-text-highlight active' : 'wcf-tab',
-				'icon'  => 'dashicons-admin-customizer',
-			),
-			array(
-				'title' => __( 'Edit Fields', 'cartflows' ),
-				'id'    => 'wcf-thankyou-fields',
-				'class' => 'wcf-thankyou-fields' === $active_tab ? 'wcf-tab wp-ui-text-highlight active' : 'wcf-tab',
-				'icon'  => 'dashicons-welcome-widgets-menus',
-			),
 			array(
 				'title' => __( 'Settings', 'cartflows' ),
 				'id'    => 'wcf-thankyou-redirect',
@@ -170,13 +162,123 @@ class Cartflows_Thankyou_Meta extends Cartflows_Meta {
 								<span class="wcf-tab-title"><?php echo esc_html( $tab['title'] ); ?></span>
 							</div>
 						<?php } ?>
-						<input type="hidden" id="wcf-active-tab" name="wcf-active-tab" value="<?php echo esc_attr( $active_tab ); ?>" />
+					</div>
+				</div>
+				<div class="wcf-column-right">
+					<div class="wcf-thankyou-redirect wcf-tab-content widefat" >
+					<?php
+						echo wcf()->meta->get_text_field(
+							array(
+								'label' => __( 'Thank You Page Text', 'cartflows' ),
+								'name'  => 'wcf-tq-text',
+								'value' => $options['wcf-tq-text'],
+								'attr'  => array(
+									'placeholder' => __( 'Thank you. Your order has been received.', 'cartflows' ),
+								),
+								'help'  => __( 'It will change the default text on thank you page.', 'cartflows' ),
+							)
+						);
 
+						echo wcf()->meta->get_hr_line_field( array() );
+
+						echo wcf()->meta->get_checkbox_field(
+							array(
+								'label' => __( 'Redirect After Purchase', 'cartflows' ),
+								'name'  => 'wcf-show-tq-redirect-section',
+								'value' => $options['wcf-show-tq-redirect-section'],
+								'after' => 'Enable',
+							)
+						);
+
+						echo wcf()->meta->get_text_field(
+							array(
+								'label' => __( 'Redirect Link', 'cartflows' ),
+								'name'  => 'wcf-tq-redirect-link',
+								'value' => $options['wcf-tq-redirect-link'],
+								'attr'  => array(
+									'placeholder' => __( 'https://', 'cartflows' ),
+								),
+							)
+						);
+
+					?>
+					</div>
+
+					<?php $this->tab_custom_script( $options, $post_id ); ?>
+
+					<?php $this->right_column_footer( $options, $post_id ); ?>
+				</div>
+			</div>
+		</div>
+
+		<?php
+	}
+
+	/**
+	 * Metabox Markup
+	 *
+	 * @param  object $post Post object.
+	 * @return void
+	 */
+	public function design_markup_meta_box( $post ) {
+
+		wp_nonce_field( 'save-nonce-thankyou-step-meta', 'nonce-thankyou-step-meta' );
+
+		do_action( 'wcf_thankyou_design_settings_markup_before' );
+		$this->design_settings_tabs( self::$meta_option_data, $post->ID );
+		do_action( 'wcf_thankyou_design_settings_markup_after' );
+	}
+
+	/**
+	 * Page Header Tabs
+	 *
+	 * @param  array $options Post meta.
+	 * @param  int   $post_id Post ID.
+	 */
+	public function design_settings_tabs( $options, $post_id ) {
+
+		$active_tab = 'wcf-thankyou-design';
+
+		$tabs = array(
+			array(
+				'title' => __( 'Shortcodes', 'cartflows' ),
+				'id'    => 'wcf-thankyou-shortcodes',
+				'class' => 'wcf-thankyou-shortcodes' === $active_tab ? 'wcf-tab wp-ui-text-highlight active' : 'wcf-tab',
+				'icon'  => 'dashicons-editor-code',
+			),
+			array(
+				'title' => __( 'Design', 'cartflows' ),
+				'id'    => 'wcf-thankyou-design',
+				'class' => 'wcf-thankyou-design' === $active_tab ? 'wcf-tab wp-ui-text-highlight active' : 'wcf-tab',
+				'icon'  => 'dashicons-admin-customizer',
+			),
+			array(
+				'title' => __( 'Edit Fields', 'cartflows' ),
+				'id'    => 'wcf-thankyou-fields',
+				'class' => 'wcf-thankyou-fields' === $active_tab ? 'wcf-tab wp-ui-text-highlight active' : 'wcf-tab',
+				'icon'  => 'dashicons-welcome-widgets-menus',
+			),
+		);
+
+		?>
+		<div class="wcf-thankyou-design-table wcf-metabox-wrap widefat">
+			<div class="wcf-table-container">
+				<?php echo wcf_get_page_builder_notice(); ?>
+				<div class="wcf-column-left">
+					<div class="wcf-tab-wrapper">
+
+						<?php foreach ( $tabs as $key => $tab ) { ?>
+							<div class="<?php echo esc_attr( $tab['class'] ); ?>" data-tab="<?php echo esc_attr( $tab['id'] ); ?>">
+								<span class="dashicons <?php echo esc_attr( $tab['icon'] ); ?>"></span>
+								<span class="wcf-tab-title"><?php echo esc_html( $tab['title'] ); ?></span>
+							</div>
+						<?php } ?>
 					</div>
 				</div>
 				<div class="wcf-column-right">
 					<div class="wcf-thankyou-shortcodes wcf-tab-content active widefat">
 						<?php
+
 						echo wcf()->meta->get_shortcode_field(
 							array(
 								'label'   => __( 'Order Details', 'cartflows' ),
@@ -322,54 +424,11 @@ class Cartflows_Thankyou_Meta extends Cartflows_Meta {
 						);
 						?>
 					</div>
-					<div class="wcf-thankyou-redirect wcf-tab-content widefat" >
-					<?php
-						echo wcf()->meta->get_text_field(
-							array(
-								'label' => __( 'Thank You Page Text', 'cartflows' ),
-								'name'  => 'wcf-tq-text',
-								'value' => $options['wcf-tq-text'],
-								'attr'  => array(
-									'placeholder' => __( 'Thank you. Your order has been received.', 'cartflows' ),
-								),
-								'help'  => __( 'It will change the default text on thank you page.', 'cartflows' ),
-							)
-						);
-
-						echo wcf()->meta->get_hr_line_field( array() );
-
-						echo wcf()->meta->get_checkbox_field(
-							array(
-								'label' => __( 'Redirect After Purchase', 'cartflows' ),
-								'name'  => 'wcf-show-tq-redirect-section',
-								'value' => $options['wcf-show-tq-redirect-section'],
-								'after' => 'Enable',
-							)
-						);
-
-						echo wcf()->meta->get_text_field(
-							array(
-								'label' => __( 'Redirect Link', 'cartflows' ),
-								'name'  => 'wcf-tq-redirect-link',
-								'value' => $options['wcf-tq-redirect-link'],
-								'attr'  => array(
-									'placeholder' => __( 'https://', 'cartflows' ),
-								),
-							)
-						);
-
-					?>
-					</div>
-
-					<?php $this->tab_custom_script( $options, $post_id ); ?>
-
 					<?php $this->right_column_footer( $options, $post_id ); ?>
 				</div>
 			</div>
 		</div>
-
 		<?php
-
 	}
 
 	/**

@@ -103,7 +103,9 @@ class Cartflows_Thankyou_Markup {
 				$key_param = 'wcf-opt-key';
 			}
 
-			if ( ! isset( $_GET[ $id_param ] ) && wcf()->flow->is_flow_testmode() ) { //phpcs:ignore
+			$show_demo_order = apply_filters( 'cartflows_show_demo_order_details', false );
+
+			if ( ! isset( $_GET[ $id_param ] ) && ( wcf()->flow->is_flow_testmode() || $show_demo_order ) ) { //phpcs:ignore
 				$args = array(
 					'limit'     => 1,
 					'order'     => 'DESC',
@@ -121,10 +123,12 @@ class Cartflows_Thankyou_Markup {
 					if ( ! $order ) {
 						$order = false;
 					}
+				} else {
+					return '<p class="woocommerce-notice">' . __( 'No completed or processing order found to show the order details form demo.', 'cartflows' ) . '</p>';
 				}
 			} else {
 				if ( ! isset( $_GET[ $id_param ] ) ) { //phpcs:ignore
-					return '<p class="woocommerce-notice">Order not found. You cannot access this page directly.</p>';
+					return '<p class="woocommerce-notice">' . __( 'Order not found. You cannot access this page directly.', 'cartflows' ) . '</p>';
 				}
 
 				// Get the order.
@@ -182,9 +186,15 @@ class Cartflows_Thankyou_Markup {
 
 			do_action( 'cartflows_thank_you_scripts' );
 
-			$style = $this->generate_thank_you_style();
+			$thank_you_dynamic_css = apply_filters( 'cartflows_thank_you_enable_dynamic_css', true );
 
-			wp_add_inline_style( 'wcf-frontend-global', $style );
+			if ( $thank_you_dynamic_css ) {
+
+				$style = $this->generate_thank_you_style();
+
+				wp_add_inline_style( 'wcf-frontend-global', $style );
+
+			}
 		}
 	}
 

@@ -62,7 +62,7 @@ class Cartflows_Landing_Meta extends Cartflows_Meta {
 
 		if ( _is_wcf_landing_type() ) {
 			add_meta_box(
-				'wcf-ladning-settings',                // Id.
+				'wcf-landing-settings',                // Id.
 				__( 'Landing Page Settings', 'cartflows' ), // Title.
 				array( $this, 'landing_meta_box' ),      // Callback.
 				wcf()->utils->get_step_post_type(),                 // Post_type.
@@ -159,6 +159,8 @@ class Cartflows_Landing_Meta extends Cartflows_Meta {
 				<div class="wcf-column-right">
 					<div class="wcf-landing-shortcodes wcf-tab-content active widefat">
 						<?php
+
+						echo wcf_get_page_builder_notice();
 
 						$next_step_link = wcf()->utils->get_linking_url(
 							array( 'class' => 'wcf-next-step' )

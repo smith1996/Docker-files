@@ -28,7 +28,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 	<?php else : ?>
 
-		<h3><?php _e( 'Billing details', 'woocommerce' ); ?></h3>
+		<h3><?php echo apply_filters( 'cartflows_woo_billling_text', __( 'Billing details', 'woocommerce' ) ); ?></h3>
 
 	<?php endif; ?>
 

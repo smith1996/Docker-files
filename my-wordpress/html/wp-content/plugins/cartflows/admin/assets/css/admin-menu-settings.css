@@ -36,17 +36,17 @@
 }
 
 .wcf-container #poststuff h2 {
-    padding: 12px 12px;
+	padding: 12px 12px;
 }
 .wcf-container .postbox .hndle {
-    background: #ffffff;
-    border-bottom: 1px solid #e6e6e6;
+	background: #ffffff;
+	border-bottom: 1px solid #e6e6e6;
 }
 
-.wcf-menu-page-wrapper{
+.wcf-menu-page-wrapper {
 	left: -20px;
-    position: relative;
-    width: calc( 100% + 20px);
+	position: relative;
+	width: calc(100% + 20px);
 }
 
 .wcf-menu-page-wrapper a {
@@ -127,7 +127,7 @@
 .wcf-widget-list li a:before {
 	display: inline-block;
 	margin-right: 2px;
-	font: normal 20px/1 'dashicons';
+	font: normal 20px/1 "dashicons";
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 	vertical-align: top;
@@ -141,18 +141,18 @@
 	background: #f7f7f7;
 	border-bottom: 2px solid #e6e6e6;
 }
-.wcf-container .postbox ul{
+.wcf-container .postbox ul {
 	margin: 0;
 }
-.wcf-widget-list a{
+.wcf-widget-list a {
 	line-height: 1.6;
 }
-.wcf-widget-list a:focus{
+.wcf-widget-list a:focus {
 	box-shadow: none;
 }
 
-.wcf-branding-list{
-	margin:0;
+.wcf-branding-list {
+	margin: 0;
 }
 
 /* Update icon. */
@@ -200,19 +200,19 @@
 }
 .wcf-menu-page-header {
 	background-color: #fff;
-    text-align: center;
-    padding: 20px 0;
-    margin-bottom: 20px;
-    box-shadow: 0 1px 1px 0 rgba(0,0,0,.1);
+	text-align: center;
+	padding: 20px 0;
+	margin-bottom: 20px;
+	box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.1);
 }
 
 .wcf-logo {
-    max-width: 170px;
+	max-width: 170px;
 }
 
 /* Spinner */
 .wcf-button-spinner:before {
-	font: normal 20px/.5 dashicons;
+	font: normal 20px/0.5 dashicons;
 	speak: none;
 	display: inline-block;
 	padding: 0;
@@ -228,12 +228,11 @@
 	animation: rotation 1s infinite linear;
 }
 
-
 /* New CSS */
 .wcf-setting-tab-wrapper .wcf-setting-tab {
 	padding: 10px 15px;
-    display: flex;
-    flex-wrap: wrap;
+	display: flex;
+	flex-wrap: wrap;
 }
 
 .wcf-setting-tab-wrapper .wcf-tab-title {
@@ -242,57 +241,61 @@
 
 .wcf-setting-tab-wrapper .wcf-tab-link-wrapper {
 	width: 60%;
-    text-align: right;
+	text-align: right;
 }
 
 /** Settings Page - Introduction Box */
 #wcf-menu-page .introduction iframe {
-    width: 100%;
-    vertical-align: middle;
+	width: 100%;
+	vertical-align: middle;
 }
 #wcf-menu-page .introduction .iframe-wrap {
-    margin: -6px -12px 0px -12px;
+	margin: -6px -12px 0px -12px;
 }
-
 
 /* Form Fields */
+.form-field select,
+.form-field p {
+	max-width: 100%;
+}
+
 .form-field-label,
 .form-field-data {
-    display: inline-block;
-    padding-right: 5px;
+	display: inline-block;
+	padding-right: 5px;
 }
 .form-field-actions {
-    display: inline-block;
+	display: inline-block;
 	margin-left: 15px;
 }
 .form-field-actions a {
-    margin: 0 12px 0 0;
+	margin: 0 12px 0 0;
 }
 .form-field-actions span.dashicons {
-    margin: 0 5px 0 0;
+	margin: 0 5px 0 0;
 }
 .form-field-desc {
-    margin: 5px 0 0;
+	margin: 5px 0 0;
 }
 #poststuff .general-settings-form .inside {
-    margin: 2em 0 0;
+	margin: 2em 0 0;
 }
 .general-settings-form .form-field,
 .postbox-container .form-field {
-    border-bottom: 1px solid #e6e6e6;
-    display: block;
-    width: 100%;
-    margin: 0 0 1em;
-    padding: 0 0 1em;
+	border-bottom: 1px solid #e6e6e6;
+	display: block;
+	width: 100%;
+	margin: 0 0 1em;
+	padding: 0 0 1em;
 }
 .general-settings-form .form-field:first-child {
-    margin: 1em 0 1em;
+	margin: 1em 0 1em;
 }
 .general-settings-form .form-field:last-child {
-    border: none;
+	border: none;
 }
 
-.postbox-container .form-field{
+.postbox-container .form-field {
 	border: none;
 }
 
@@ -313,7 +316,7 @@
 	white-space: pre-wrap;
 }
 
-.wcf_permalink_settings .form-field-desc p{
+.wcf_permalink_settings .form-field-desc p {
 	word-break: break-all;
 }
 
@@ -334,12 +337,12 @@
 	border-bottom: 1px solid #dfdfdf;
 }
 .wcf-stats-box {
-    padding: 15px;
+	padding: 15px;
 	box-sizing: border-box;
 	border-right: 1px solid #dfdfdf;
 }
 .wcf-stats-box:last-child {
-    border: 0;
+	border: 0;
 }
 /*.wcf-stats-grid-container:last-of-type {
     border-top: 0;

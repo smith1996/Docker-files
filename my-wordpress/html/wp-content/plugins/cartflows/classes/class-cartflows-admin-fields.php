@@ -217,6 +217,12 @@ class Cartflows_Admin_Fields {
 						'terms'    => 'checkout',
 					),
 				),
+				'meta_query'     => array( //phpcs:ignore
+					array(
+						'key'     => 'wcf-control-step',
+						'compare' => 'NOT EXISTS',
+					),
+				),
 			)
 		);
 

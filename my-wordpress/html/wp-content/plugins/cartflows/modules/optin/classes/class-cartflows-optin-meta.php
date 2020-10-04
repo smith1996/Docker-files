@@ -10,7 +10,6 @@
  */
 class Cartflows_Optin_Meta extends Cartflows_Meta {
 
-
 	/**
 	 * Instance
 	 *
@@ -24,6 +23,13 @@ class Cartflows_Optin_Meta extends Cartflows_Meta {
 	 * @var $meta_option
 	 */
 	private static $meta_option = null;
+
+	/**
+	 * Meta Options map key->value map,
+	 *
+	 * @var $meta_option_data
+	 */
+	private static $meta_option_data = array();
 
 	/**
 	 * Initiator
@@ -50,21 +56,53 @@ class Cartflows_Optin_Meta extends Cartflows_Meta {
 	 */
 	public function init_metabox() {
 
-		add_action( 'add_meta_boxes', array( $this, 'setup_meta_box' ) );
+		add_action( 'add_meta_boxes', array( $this, 'setup_meta_box' ), 10, 2 );
 		add_action( 'save_post', array( $this, 'save_meta_box' ) );
 	}
 
 	/**
 	 *  Setup Metabox
+	 *
+	 * @param string $post_type post type.
+	 * @param object $post post object.
 	 */
-	public function setup_meta_box() {
+	public function setup_meta_box( $post_type, $post ) {
 
 		if ( _is_wcf_optin_type() ) {
+
+			$stored_meta = get_post_meta( $post->ID );
+			$optin_meta  = self::get_meta_option( $post->ID );
+
+			// Set stored and override defaults.
+			foreach ( $stored_meta as $key => $value ) {
+				if ( array_key_exists( $key, $optin_meta ) ) {
+					self::$meta_option[ $key ]['default'] = ( isset( $stored_meta[ $key ][0] ) ) ? maybe_unserialize( $stored_meta[ $key ][0] ) : '';
+				} else {
+					self::$meta_option[ $key ]['default'] = ( isset( $stored_meta[ $key ][0] ) ) ? $stored_meta[ $key ][0] : '';
+				}
+			}
+
+			// Get defaults.
+			$new_meta = self::get_meta_option( $post->ID );
+
+			foreach ( $new_meta as $key => $value ) {
+				self::$meta_option_data[ $key ] = $new_meta[ $key ]['default'];
+			}
+
 			add_meta_box(
 				'wcf-optin-settings',                // Id.
 				__( 'Optin Settings', 'cartflows' ), // Title.
-				array( $this, 'markup_meta_box' ),      // Callback.
-				wcf()->utils->get_step_post_type(),                 // Post_type.
+				array( $this, 'settings_markup_meta_box' ),      // Callback.
+				$post_type,                 // Post_type.
+				'normal',                               // Context.
+				'high'                                  // Priority.
+			);
+
+			add_meta_box(
+				'wcf-optin-design-settings',                // Id.
+				__( 'Optin Design', 'cartflows' ), // Title.
+				array( $this, 'design_markup_meta_box' ),      // Callback.
+				$post_type,                 // Post_type.
 				'normal',                               // Context.
 				'high'                                  // Priority.
 			);
@@ -77,33 +115,12 @@ class Cartflows_Optin_Meta extends Cartflows_Meta {
 	 * @param  object $post Post object.
 	 * @return void
 	 */
-	public function markup_meta_box( $post ) {
+	public function settings_markup_meta_box( $post ) {
 
 		wp_nonce_field( 'save-nonce-optin-step-meta', 'nonce-optin-step-meta' );
 
-		$stored = get_post_meta( $post->ID );
-
-		$optin_meta = self::get_meta_option( $post->ID );
-
-		// Set stored and override defaults.
-		foreach ( $stored as $key => $value ) {
-			if ( array_key_exists( $key, $optin_meta ) ) {
-				self::$meta_option[ $key ]['default'] = ( isset( $stored[ $key ][0] ) ) ? maybe_unserialize( $stored[ $key ][0] ) : '';
-			} else {
-				self::$meta_option[ $key ]['default'] = ( isset( $stored[ $key ][0] ) ) ? $stored[ $key ][0] : '';
-			}
-		}
-
-		// Get defaults.
-		$meta       = self::get_meta_option( $post->ID );
-		$optin_meta = array();
-
-		foreach ( $meta as $key => $value ) {
-			$optin_meta[ $key ] = $meta[ $key ]['default'];
-		}
-
 		do_action( 'wcf_optin_settings_markup_before' );
-		$this->tabs_markup( $optin_meta, $post->ID );
+		$this->tabs_markup( self::$meta_option_data, $post->ID );
 		do_action( 'wcf_optin_settings_markup_after' );
 	}
 
@@ -115,30 +132,14 @@ class Cartflows_Optin_Meta extends Cartflows_Meta {
 	 */
 	public function tabs_markup( $options, $post_id ) {
 
-		$active_tab = get_post_meta( $post_id, 'wcf-active-tab', true );
-
-		if ( empty( $active_tab ) ) {
-			$active_tab = 'wcf-optin-shortcodes';
-		}
+		$active_tab = 'wcf-optin-general';
 
 		$tab_array = array(
-			array(
-				'title' => __( 'Shortcodes', 'cartflows' ),
-				'id'    => 'wcf-optin-shortcodes',
-				'class' => 'wcf-optin-shortcodes' === $active_tab ? 'wcf-tab wp-ui-text-highlight active' : 'wcf-tab',
-				'icon'  => 'dashicons-editor-code',
-			),
 			array(
 				'title' => __( 'Select Product', 'cartflows' ),
 				'id'    => 'wcf-optin-general',
 				'class' => 'wcf-optin-general' === $active_tab ? 'wcf-tab wp-ui-text-highlight active' : 'wcf-tab',
 				'icon'  => 'dashicons-info',
-			),
-			array(
-				'title' => __( 'Design', 'cartflows' ),
-				'id'    => 'wcf-optin-style',
-				'class' => 'wcf-optin-style' === $active_tab ? 'wcf-tab wp-ui-text-highlight active' : 'wcf-tab',
-				'icon'  => 'dashicons-admin-customizer',
 			),
 			array(
 				'title' => __( 'Form Fields', 'cartflows' ),
@@ -174,17 +175,80 @@ class Cartflows_Optin_Meta extends Cartflows_Meta {
 								<span class="wcf-tab-title"><?php echo esc_html( $tab['title'] ); ?></span>
 							</div>
 						<?php } ?>
+					</div>
+				</div>
+				<div class="wcf-column-right">
+					<?php $this->tab_general( $options, $post_id ); ?>
+					<?php $this->tab_custom_fields( $options, $post_id ); ?>
+					<?php $this->tab_custom_settings( $options, $post_id ); ?>
+					<?php $this->tab_custom_script( $options, $post_id ); ?>
+					<?php $this->right_column_footer( $options, $post_id ); ?>
+				</div>
+			</div>
+		</div>
 
-						<input type="hidden" id="wcf-active-tab" name="wcf-active-tab" value="<?php echo esc_attr( $active_tab ); ?>" />
+		<?php
+	}
+
+	/**
+	 * Design settings metabox Markup
+	 *
+	 * @param  object $post Post object.
+	 * @return void
+	 */
+	public function design_markup_meta_box( $post ) {
+
+		wp_nonce_field( 'save-nonce-optin-step-meta', 'nonce-optin-step-meta' );
+
+		do_action( 'wcf_optin_design_settings_markup_before' );
+		$this->design_tabs_markup( self::$meta_option_data, $post->ID );
+		do_action( 'wcf_optin_design_settings_markup_after' );
+	}
+
+	/**
+	 * Design Tabs
+	 *
+	 * @param array $options options.
+	 * @param int   $post_id post ID.
+	 */
+	public function design_tabs_markup( $options, $post_id ) {
+
+		$active_tab = 'wcf-optin-style';
+
+		$tab_array = array(
+			array(
+				'title' => __( 'Shortcodes', 'cartflows' ),
+				'id'    => 'wcf-optin-shortcodes',
+				'class' => 'wcf-optin-shortcodes' === $active_tab ? 'wcf-tab wp-ui-text-highlight active' : 'wcf-tab',
+				'icon'  => 'dashicons-editor-code',
+			),
+			array(
+				'title' => __( 'Design', 'cartflows' ),
+				'id'    => 'wcf-optin-style',
+				'class' => 'wcf-optin-style' === $active_tab ? 'wcf-tab wp-ui-text-highlight active' : 'wcf-tab',
+				'icon'  => 'dashicons-admin-customizer',
+			),
+		);
+
+		$tabs = $tab_array;
+		?>
+		<div class="wcf-optin-design_table wcf-metabox-wrap widefat">
+			<div class="wcf-table-container">
+				<?php echo wcf_get_page_builder_notice(); ?>
+				<div class="wcf-column-left">
+					<div class="wcf-tab-wrapper">
+
+						<?php foreach ( $tabs as $key => $tab ) { ?>
+							<div class="<?php echo esc_attr( $tab['class'] ); ?>" data-tab="<?php echo esc_attr( $tab['id'] ); ?>">
+								<span class="dashicons <?php echo esc_attr( $tab['icon'] ); ?>"></span>
+								<span class="wcf-tab-title"><?php echo esc_html( $tab['title'] ); ?></span>
+							</div>
+						<?php } ?>
 					</div>
 				</div>
 				<div class="wcf-column-right">
 					<?php $this->tab_shortcodes( $options, $post_id ); ?>
-					<?php $this->tab_general( $options, $post_id ); ?>
 					<?php $this->tab_style( $options, $post_id ); ?>
-					<?php $this->tab_custom_fields( $options, $post_id ); ?>
-					<?php $this->tab_custom_settings( $options, $post_id ); ?>
-					<?php $this->tab_custom_script( $options, $post_id ); ?>
 					<?php $this->right_column_footer( $options, $post_id ); ?>
 				</div>
 			</div>

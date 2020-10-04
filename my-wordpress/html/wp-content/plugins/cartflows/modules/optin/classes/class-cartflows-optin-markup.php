@@ -54,15 +54,15 @@ class Cartflows_Optin_Markup {
 
 		/* Optin Fields */
 		add_filter( 'woocommerce_default_address_fields', array( $this, 'set_optin_default_fields' ), 1000 );
-		/**
-		* It may required later
+
+		/** It may required later
 		* add_filter( 'woocommerce_checkout_fields', array( $this, 'set_optin_fields' ) );
 		*/
 		add_filter( 'woocommerce_billing_fields', array( $this, 'billing_optin_fields' ), 1000, 2 );
 
 		add_filter( 'woocommerce_checkout_required_field_notice', array( $this, 'change_field_label_in_required_notice' ), 100, 2 );
 
-		add_action( 'init', array( $this, 'remove_login_actions' ) );
+		add_action( 'init', array( $this, 'remove_woo_actions' ) );
 
 		$this->elementor_editor_compatibility();
 	}
@@ -72,23 +72,13 @@ class Cartflows_Optin_Markup {
 	 */
 	public function elementor_editor_compatibility() {
 
-		if ( ! empty( $_REQUEST['action'] ) && 'elementor' === $_REQUEST['action'] && is_admin() ) { //phpcs:ignore
-
-			if ( isset( $_GET['post'] ) && ! empty( $_GET['post'] ) ) { //phpcs:ignore
-
-				if ( _wcf_check_is_optin_by_id( intval( $_GET['post'] ) ) ) { //phpcs:ignore
-
-					/* Submit Button */
-					add_filter( 'woocommerce_order_button_text', array( $this, 'place_order_button_text' ), 10, 1 );
-				}
-			}
-		}
+		add_action( 'cartflows_elementor_before_optin_shortcode', array( $this, 'before_optin_shortcode_actions' ) );
 	}
 
 	/**
 	 * Remove login and registration actions.
 	 */
-	public function remove_login_actions() {
+	public function remove_woo_actions() {
 
 		if ( _is_wcf_doing_optin_ajax() ) {
 
@@ -101,25 +91,48 @@ class Cartflows_Optin_Markup {
 
 			add_filter( 'woocommerce_checkout_registration_enabled', '__return_false' );
 		}
+
+		add_action( 'cartflows_woo_checkout_update_order_review', array( $this, 'filter_remove_woo_data' ) );
+	}
+
+	/**
+	 * Filter or remove woo data on update order review ajax call.
+	 *
+	 * @param string $post_data post data woo.
+	 * @return void
+	 */
+	public function filter_remove_woo_data( $post_data ) {
+
+		if ( isset( $post_data['_wcf_optin_id'] ) ) {
+			add_filter( 'woocommerce_get_terms_and_conditions_checkbox_text', '__return_false' );
+			add_filter( 'woocommerce_order_button_text', array( $this, 'place_order_button_text' ), 1 );
+		}
 	}
 
 	/**
 	 * Change order button text .
 	 *
-	 * @param string $woo_button_text place order.
+	 * @param string $button_text place order.
 	 * @return string
 	 */
-	public function place_order_button_text( $woo_button_text ) {
+	public function place_order_button_text( $button_text ) {
 
 		$optin_id = get_the_ID();
 
-		$wcf_order_button_text = wcf()->options->get_optin_meta_value( $optin_id, 'wcf-submit-button-text' );
-
-		if ( ! empty( $wcf_order_button_text ) ) {
-			$woo_button_text = $wcf_order_button_text;
+		if ( ! $optin_id && isset( Cartflows_Woo_Hooks::$ajax_data['_wcf_optin_id'] ) ) {
+			$optin_id = intval( Cartflows_Woo_Hooks::$ajax_data['_wcf_optin_id'] );
 		}
 
-		return $woo_button_text;
+		if ( $optin_id ) {
+
+			$wcf_order_button_text = wcf()->options->get_optin_meta_value( $optin_id, 'wcf-submit-button-text' );
+
+			if ( ! empty( $wcf_order_button_text ) ) {
+				$button_text = $wcf_order_button_text;
+			}
+		}
+
+		return $button_text;
 	}
 
 	/**
@@ -293,53 +306,61 @@ class Cartflows_Optin_Markup {
 
 			add_action( 'wp_enqueue_scripts', array( $this, 'compatibility_scripts' ), 101 );
 
-			/* Show notices if cart has errors */
-			add_action( 'woocommerce_cart_has_errors', 'woocommerce_output_all_notices' );
-
-			// Outputting the hidden field in checkout page.
-			add_action( 'woocommerce_after_order_notes', array( $this, 'checkout_shortcode_post_id' ), 99 );
-			add_action( 'woocommerce_login_form_end', array( $this, 'checkout_shortcode_post_id' ), 99 );
-
-			/* Remove unnecessary option */
-			add_filter( 'woocommerce_enable_order_notes_field', '__return_false' );
-			add_filter( 'woocommerce_cart_needs_shipping_address', '__return_false' );
-
-			remove_all_actions( 'woocommerce_before_checkout_form' );
-			remove_all_actions( 'woocommerce_checkout_billing' );
-			remove_all_actions( 'woocommerce_checkout_shipping' );
-			remove_all_actions( 'woocommerce_checkout_before_order_review' );
-			remove_all_actions( 'woocommerce_checkout_order_review' );
-			remove_all_actions( 'woocommerce_checkout_after_order_review' );
-			add_filter( 'woocommerce_cart_needs_payment', '__return_false' );
-			add_filter( 'woocommerce_available_payment_gateways', array( $this, 'disable_payment_gateways' ) );
-
-			/* Paypal Expresss remove */
-
-			if ( function_exists( 'wc_gateway_ppec' ) ) {
-				remove_action( 'wp_enqueue_scripts', array( wc_gateway_ppec()->cart, 'enqueue_scripts' ) );
-			}
-
-			// Hook in actions once.
-			add_action( 'woocommerce_before_checkout_form', 'woocommerce_output_all_notices', 10 );
-			add_action( 'woocommerce_checkout_billing', array( WC()->checkout, 'checkout_form_billing' ) );
-			add_action( 'woocommerce_checkout_shipping', array( WC()->checkout, 'checkout_form_shipping' ) );
-			add_action( 'woocommerce_checkout_order_review', 'woocommerce_checkout_payment', 20 );
-
-			/* Submit Button */
-			add_filter( 'woocommerce_order_button_text', array( $this, 'place_order_button_text' ), 10, 1 );
-
-			add_filter( 'woocommerce_get_terms_and_conditions_checkbox_text', '__return_false' );
-
-			/* Remove login actions */
-			add_filter( 'woocommerce_checkout_registration_enabled', '__return_false' );
-			add_filter( 'woocommerce_checkout_registration_required', '__return_false' );
+			$this->before_optin_shortcode_actions();
 
 			global $post;
 
 			$optin_id = $post->ID;
 
 			do_action( 'cartflows_optin_before_shortcode', $optin_id );
+
 		}
+	}
+
+	/**
+	 * Before option shortcode actions.
+	 */
+	public function before_optin_shortcode_actions() {
+
+		/* Show notices if cart has errors */
+		add_action( 'woocommerce_cart_has_errors', 'woocommerce_output_all_notices' );
+
+		// Outputting the hidden field in checkout page.
+		add_action( 'woocommerce_after_order_notes', array( $this, 'checkout_shortcode_post_id' ), 99 );
+		add_action( 'woocommerce_login_form_end', array( $this, 'checkout_shortcode_post_id' ), 99 );
+
+		/* Remove unnecessary option */
+		add_filter( 'woocommerce_enable_order_notes_field', '__return_false' );
+		add_filter( 'woocommerce_cart_needs_shipping_address', '__return_false' );
+
+		remove_all_actions( 'woocommerce_before_checkout_form' );
+		remove_all_actions( 'woocommerce_checkout_billing' );
+		remove_all_actions( 'woocommerce_checkout_shipping' );
+		remove_all_actions( 'woocommerce_checkout_before_order_review' );
+		remove_all_actions( 'woocommerce_checkout_order_review' );
+		remove_all_actions( 'woocommerce_checkout_after_order_review' );
+		add_filter( 'woocommerce_cart_needs_payment', '__return_false' );
+		add_filter( 'woocommerce_available_payment_gateways', array( $this, 'disable_payment_gateways' ) );
+
+		/* Paypal Expresss remove */
+		if ( function_exists( 'wc_gateway_ppec' ) ) {
+			remove_action( 'wp_enqueue_scripts', array( wc_gateway_ppec()->cart, 'enqueue_scripts' ) );
+		}
+
+		// Hook in actions once.
+		add_action( 'woocommerce_before_checkout_form', 'woocommerce_output_all_notices', 10 );
+		add_action( 'woocommerce_checkout_billing', array( WC()->checkout, 'checkout_form_billing' ) );
+		add_action( 'woocommerce_checkout_shipping', array( WC()->checkout, 'checkout_form_shipping' ) );
+		add_action( 'woocommerce_checkout_order_review', 'woocommerce_checkout_payment', 20 );
+
+		/* Submit Button */
+		add_filter( 'woocommerce_order_button_text', array( $this, 'place_order_button_text' ), 10, 1 );
+
+		add_filter( 'woocommerce_get_terms_and_conditions_checkbox_text', '__return_false' );
+
+		/* Remove login actions */
+		add_filter( 'woocommerce_checkout_registration_enabled', '__return_false' );
+		add_filter( 'woocommerce_checkout_registration_required', '__return_false' );
 	}
 
 	/**
@@ -399,9 +420,14 @@ class Cartflows_Optin_Markup {
 
 		do_action( 'cartflows_optin_scripts' );
 
-		$style = $this->generate_style();
+		$optin_dynamic_css = apply_filters( 'cartflows_optin_enable_dynamic_css', true );
 
-		wp_add_inline_style( 'wcf-optin-template', $style );
+		if ( $optin_dynamic_css ) {
+
+			$style = $this->generate_style();
+
+			wp_add_inline_style( 'wcf-optin-template', $style );
+		}
 	}
 
 	/**

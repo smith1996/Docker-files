@@ -48,16 +48,21 @@ if ( ! $checkout->is_registration_enabled() && $checkout->is_registration_requir
 		<?php do_action( 'woocommerce_checkout_after_customer_details' ); ?>
 
 	<?php endif; ?>
+	
+	<div class='wcf-order-wrap'>
 
-	<h3 id="order_review_heading"><?php esc_html_e( 'Your order', 'woocommerce' ); ?></h3>
+		<?php do_action( 'cartflows_woocommerce_checkout_before_order_heading' ); ?>
 
-	<?php do_action( 'woocommerce_checkout_before_order_review' ); ?>
+		<h3 id="order_review_heading"><?php echo apply_filters( 'cartflows_woo_your_order_text', esc_html__( 'Your order', 'woocommerce' ) ); ?></h3>
 
-	<div id="order_review" class="woocommerce-checkout-review-order">
-		<?php do_action( 'woocommerce_checkout_order_review' ); ?>
+		<?php do_action( 'woocommerce_checkout_before_order_review' ); ?>
+
+		<div id="order_review" class="woocommerce-checkout-review-order">
+			<?php do_action( 'woocommerce_checkout_order_review' ); ?>
+		</div>
+		
+		<?php do_action( 'woocommerce_checkout_after_order_review' ); ?>
 	</div>
-
-	<?php do_action( 'woocommerce_checkout_after_order_review' ); ?>
 
 </form>
 

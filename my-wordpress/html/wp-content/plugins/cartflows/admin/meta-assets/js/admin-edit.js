@@ -218,6 +218,49 @@
 		}
 	}
 	
+	var wcf_check_is_local_storage = function(){ 
+		var test = 'test';
+		try {
+			localStorage.setItem(test, test);
+			localStorage.removeItem(test);
+			return true;
+		} catch(e) {
+			return false;
+		}
+	};
+	
+	var wcf_local_storage = {
+		
+		set : function ( name, data ){
+			
+			localStorage.removeItem( name );
+			localStorage.setItem( name, JSON.stringify( data ) );
+		},
+		get : function ( name ){
+
+			let data = {};
+
+			if( localStorage.getItem( name ) != null ){
+				data = JSON.parse( localStorage.getItem( name ) );
+			}
+
+			return data;
+		}
+	};
+
+	var wcf_update_settings_local_storage = function( settings_id, tab ){
+		
+		if ( false === wcf_check_is_local_storage() ) {
+			return;
+		}
+		
+		let data = wcf_local_storage.get( 'wcf_meta_settings' );
+
+		data[ settings_id ] = tab;
+		
+		wcf_local_storage.set( 'wcf_meta_settings', data );
+	};
+
 	var wcf_init_color_fields = function() {
 		
 		// Call color picker
@@ -523,122 +566,71 @@
 		}
 	};
 
-	/* Advance Style Fields Hide / Show */
-	var wcf_advance_style_fields_events = function() {
-
-		/* Ready */
-		wcf_advance_style_fields();
-		wcf_thankyou_advance_style_fields();
-		wcf_thankyou_settings_fields();
-
-		/* Change Advance Style Field*/
-		$('.wcf-column-right .wcf-checkout-style .wcf-cs-fields .wcf-cs-checkbox-field input:checkbox').on('change', function(e) {
-			wcf_advance_style_fields();
-		});
-
-		/* Change Advance Style Field*/
-		$('.wcf-thankyou-table [name="wcf-tq-advance-options-fields"]').on('change', function(e) {
-			wcf_thankyou_advance_style_fields();
-		});
-
-		$('.wcf-thankyou-table [name="wcf-show-tq-redirect-section"]').on('change', function(e) {
-			wcf_thankyou_settings_fields();
-		});
-
-
-	};
-
-	var wcf_thankyou_advance_style_fields = function() {
-		var wrap 			= $('.wcf-thankyou-table'),
-			checkbox_field  = $('.wcf-thankyou-table [name="wcf-tq-advance-options-fields"]');
-
-		var field_names = [
-			'.field-wcf-tq-container-width',
-			'.field-wcf-tq-section-bg-color'
-		];
-
-		if ( checkbox_field.is(":checked") ) {
-			$.each( field_names, function(i, val) {
-				wrap.find( val ).show();
-			})
-		} else {
-			$.each( field_names, function(i, val) {
-				wrap.find( val ).hide();
-			});
-		}
-	};
-
-	var wcf_thankyou_settings_fields = function() {
-		var wrap 			= $('.wcf-thankyou-table'),
-			checkbox_field  = $('.wcf-thankyou-table [name="wcf-show-tq-redirect-section"]');
-
-		var field_names = [
-			'.field-wcf-tq-redirect-link'
-		];
-
-		if ( checkbox_field.is(":checked") ) {
-			$.each( field_names, function(i, val) {
-				wrap.find( val ).show();
-			})
-		} else {
-			$.each( field_names, function(i, val) {
-				wrap.find( val ).hide();
-			});
-		}
-	};
-	
-	/* Disable/Enable Advance Style Field section*/
-	var wcf_advance_style_fields = function() {
-
-		var wrap 			= $('.wcf-checkout-table'),
-			custom_fields 	= wrap.find('.wcf-column-right .wcf-checkout-style .wcf-cs-fields .wcf-cs-checkbox-field input:checkbox');
-
-		var field_names = [
-			'.wcf-cs-fields-options',
-			'.wcf-cs-button-options',
-			'.wcf-cs-section-options',
-		];
-
-		// console.log(custom_fields);
-
-		if ( custom_fields.is(":checked") ) {
-			$.each( field_names, function(i, val) {
-				wrap.find( val ).show();
-			})
-		} else {
-			$.each( field_names, function(i, val) {
-				wrap.find( val ).hide();
-			});
-		}
-	};
-
 	var wcf_settings_tab = function() {
 
-		if( $('.wcf-tab.active').length ) {
-			$active_tab = $('.wcf-tab.active');
+		if ( $('.wcf-metabox-wrap').length ) {
+			$('.wcf-metabox-wrap').each(function( index ) {
+			
+				let $this 	    = $(this),
+					parent 		= $this.closest('.postbox'),
+					settings_id = parent.attr('id'),
+					save_settings = wcf_local_storage.get( 'wcf_meta_settings' ),
+					show_active_tab = true;
+		
+				if( save_settings[ settings_id ] !== undefined ) {
+					
+					// We found a tab in cookie
+					show_active_tab = false;
 
-			$active_tab_markup = '.' + $active_tab.data('tab');
+					let tab = save_settings[ settings_id ],
+						tab_class = parent.find( '.wcf-tab[data-tab="' + tab + '"]' ),
+						tab_content = parent.find( '.' + tab );
 
-			if( $( $active_tab_markup ).length ) {
-				$( $active_tab_markup ).siblings().removeClass('active');
-				$( $active_tab_markup ).addClass('active');
-			}
+					if ( tab_class.css('display') !== 'none' ) {
+						tab_class.siblings().removeClass('active');
+						tab_content.siblings().removeClass('active');
+						tab_class.addClass('active');
+						tab_content.addClass('active');
+					}else{
+						// We can't show dependent hidden tab.
+						show_active_tab = true;
+					}
+				}
+				
+				if( show_active_tab ) {
+					let active_tab = parent.find('.wcf-tab.active');
+	
+					if( active_tab.length && active_tab.css('display') !== 'none' ) {
+			
+						let tab_class   = '.' + active_tab.data('tab'),
+							tab_content = parent.find( tab_class );
+				
+						if( tab_content.length ) {
+							tab_content.siblings().removeClass('active');
+							tab_content.addClass('active');
+						}
+					}
+				}
+			});
 		}
-
+		
 		$('.wcf-tab').on('click', function(e) {
 			e.preventDefault();
 
-			$this 		= $(this),
-			tab_class 	= $this.data('tab');
+			let $this 		= $(this),
+				parent 		= $this.closest('.postbox'),
+				settings_id = parent.attr('id'),
+				tab_class 	= '.' + $this.data('tab'),
+				tab_content = parent.find( tab_class );
 
-			$('#wcf-active-tab').val( tab_class );
+			wcf_update_settings_local_storage( settings_id, $this.data('tab') );
 
 			$this.siblings().removeClass('wp-ui-text-highlight active');
 			$this.addClass('wp-ui-text-highlight active');
 			
-			if( $( '.' + tab_class ).length ) {
-				$( '.' + tab_class ).siblings().removeClass('active');
-				$( '.' + tab_class ).addClass('active');
+			if( tab_content.length ) {
+				tab_content.siblings().removeClass('active');
+				tab_content.addClass('active');
 			}
 		});
 	};
@@ -712,9 +704,101 @@
 		});
 	};
 
-	$(document).ready(function($) {
+	var wcf_checkout_thankyou_hide_show_init = function() {
+		
+		/* Disable/Enable Advance Style Field section*/
+		var wcf_checkout_advance_style_fields = function() {
 
-		wcf_settings_tab();
+			var wrap 		  = $('.wcf-checkout-design-table'),
+				custom_fields = wrap.find('.wcf-column-right .wcf-checkout-style .wcf-cs-fields .field-wcf-advance-options-fields input:checkbox');
+
+			var field_names = [
+				'.wcf-cs-fields-options',
+				'.wcf-cs-button-options',
+				'.wcf-cs-section-options',
+			];
+
+			// console.log(custom_fields);
+
+			if ( custom_fields.is(":checked") ) {
+				$.each( field_names, function(i, val) {
+					wrap.find( val ).show();
+				})
+			} else {
+				$.each( field_names, function(i, val) {
+					wrap.find( val ).hide();
+				});
+			}
+		};
+		
+		var wcf_thankyou_advance_style_fields = function() {
+			var wrap 			= $('.wcf-thankyou-design-table'),
+				checkbox_field  = $('.wcf-thankyou-design-table [name="wcf-tq-advance-options-fields"]');
+
+			var field_names = [
+				'.field-wcf-tq-container-width',
+				'.field-wcf-tq-section-bg-color'
+			];
+
+			if ( checkbox_field.is(":checked") ) {
+				$.each( field_names, function(i, val) {
+					wrap.find( val ).show();
+				})
+			} else {
+				$.each( field_names, function(i, val) {
+					wrap.find( val ).hide();
+				});
+			}
+		};
+
+		var wcf_thankyou_settings_fields = function() {
+			var wrap 			= $('.wcf-thankyou-table'),
+				checkbox_field  = $('.wcf-thankyou-table [name="wcf-show-tq-redirect-section"]');
+
+			var field_names = [
+				'.field-wcf-tq-redirect-link'
+			];
+
+			if ( checkbox_field.is(":checked") ) {
+				$.each( field_names, function(i, val) {
+					wrap.find( val ).show();
+				})
+			} else {
+				$.each( field_names, function(i, val) {
+					wrap.find( val ).hide();
+				});
+			}
+		};
+		
+		/* Advance Style Fields Hide / Show */
+		var wcf_advance_style_fields_events = function() {
+
+			/* Ready */
+			wcf_checkout_advance_style_fields();
+			wcf_thankyou_advance_style_fields();
+			wcf_thankyou_settings_fields();
+
+			/* Change Advance Style Field*/
+			$('.wcf-column-right .wcf-checkout-style .wcf-cs-fields .field-wcf-advance-options-fields input:checkbox').on('change', function(e) {
+				wcf_checkout_advance_style_fields();
+			});
+
+			/* Change Advance Style Field*/
+			$('.wcf-thankyou-design-table [name="wcf-tq-advance-options-fields"]').on('change', function(e) {
+				wcf_thankyou_advance_style_fields();
+			});
+
+			$('.wcf-thankyou-table [name="wcf-show-tq-redirect-section"]').on('change', function(e) {
+				wcf_thankyou_settings_fields();
+			});
+
+
+		};
+
+		wcf_advance_style_fields_events();
+	};
+
+	$(document).ready(function($) {
 
 		wcf_init_color_fields();
 
@@ -747,10 +831,15 @@
 		/* Remove Repeatable Product */
 		wcf_remove_repeatable_product();
 		
-		/* Advance Style Fields Show Hide */
-		wcf_advance_style_fields_events();
+		/* Checkout thankyou Show Hide init */
+		wcf_checkout_thankyou_hide_show_init();
 
 		/*sortable products*/
 		wcf_products_sortable();
+
+		/* Finally update settings options */
+		setTimeout(() => {
+			wcf_settings_tab();
+		}, 300);
 	});
 })(jQuery);

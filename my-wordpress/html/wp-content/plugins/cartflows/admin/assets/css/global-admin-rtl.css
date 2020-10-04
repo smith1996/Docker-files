@@ -593,15 +593,67 @@ input[type="text"].error:focus{
 /*
 * Inside Div css for all the metaboxes
 */
-#wcf-ladning-settings .inside,
+#wcf-landing-settings,
+#wcf-checkout-settings,
+#wcf-checkout-design-settings,
+#wcf-thankyou-settings,
+#wcf-thankyou-design-settings,
+#wcf-optin-settings,
+#wcf-optin-design-settings,
+#wcf-offer-settings,
+#wcf-upsell-settings {
+    border: 1px solid #ccd0d4;
+    margin-bottom: 15px;
+}
+
+#wcf-landing-settings .hndle.ui-sortable-handle,
+#wcf-checkout-settings .hndle.ui-sortable-handle,
+#wcf-checkout-design-settings .hndle.ui-sortable-handle,
+#wcf-thankyou-settings .hndle.ui-sortable-handle,
+#wcf-thankyou-design-settings .hndle.ui-sortable-handle,
+#wcf-optin-settings .hndle.ui-sortable-handle,
+#wcf-optin-design-settings .hndle.ui-sortable-handle,
+#wcf-offer-settings .hndle.ui-sortable-handle,
+#wcf-upsell-settings  .hndle.ui-sortable-handle{
+    border-bottom: none !important;
+}
+
+#wcf-landing-settings .inside,
 #wcf-checkout-settings .inside,
-#wcf-offer-settings .inside,
-#wcf-upsell-settings .inside,
+#wcf-checkout-design-settings .inside,
+#wcf-thankyou-settings .inside,
+#wcf-thankyou-design-settings .inside,
 #wcf-optin-settings .inside,
-#wcf-thankyou-settings .inside{
+#wcf-optin-design-settings .inside,
+#wcf-offer-settings .inside,
+#wcf-upsell-settings .inside {
     margin:0px;
     padding: 0px;
     line-height: 0.9em;
+}
+
+/* Notice in metabox */
+.wcf-metabox-notice-wrap .wcf-metabox-notice {
+    border: 0;
+    background: #eee;
+    border-bottom: 1px solid #ccc;
+    font-weight: 600;
+    margin: 0 auto;
+    padding: 15px;
+}
+
+.wcf-metabox-notice .dashicons-info:before {
+    color: #0274be;
+}
+
+/* Notice in content */
+.wcf-tab-content .wcf-metabox-notice-wrap {
+    padding: 5px 15px 15px;
+}
+
+.wcf-tab-content .wcf-metabox-notice-wrap .wcf-metabox-notice {
+    display: inline-block;
+    border: 0;
 }
 
 /**
@@ -1245,10 +1297,10 @@ input[type="text"].error:focus{
  */
 @media only screen and (min-width: 1200px){
     .wcf-column-left{
-        width: 300px;
+        width: 280px;
     }
     .wcf-column-right{
-        width: calc( 100% - 300px );
+        width: calc( 100% - 280px );
     }
 }
 

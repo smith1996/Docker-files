@@ -381,8 +381,8 @@
 			$('#cartflows-upgrade-notice-overlay').hide();
 		});
 	};
-
-	/* Optin - hide/show login */
+	
+	/* Optin - hide/show logic */
 	var wcf_optin_hide_show_init = function(){
 
 		var wrapper = $('.wcf-optin-table');

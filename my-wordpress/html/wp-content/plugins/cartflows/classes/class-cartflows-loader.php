@@ -133,7 +133,7 @@ if ( ! class_exists( 'Cartflows_Loader' ) ) {
 			define( 'CARTFLOWS_BASE', plugin_basename( CARTFLOWS_FILE ) );
 			define( 'CARTFLOWS_DIR', plugin_dir_path( CARTFLOWS_FILE ) );
 			define( 'CARTFLOWS_URL', plugins_url( '/', CARTFLOWS_FILE ) );
-			define( 'CARTFLOWS_VER', '1.5.17' );
+			define( 'CARTFLOWS_VER', '1.5.18' );
 			define( 'CARTFLOWS_SLUG', 'cartflows' );
 			define( 'CARTFLOWS_SETTINGS', 'cartflows_settings' );
 
@@ -317,6 +317,9 @@ if ( ! class_exists( 'Cartflows_Loader' ) ) {
 			/* Theme support */
 			if ( $this->is_woo_active ) {
 				include_once CARTFLOWS_DIR . 'classes/class-cartflows-theme-support.php';
+
+				/* Woo hooks */
+				include_once CARTFLOWS_DIR . 'classes/class-cartflows-woo-hooks.php';
 			}
 
 			/* Admin Meta Fields*/
@@ -358,6 +361,11 @@ if ( ! class_exists( 'Cartflows_Loader' ) ) {
 				include_once CARTFLOWS_DIR . 'modules/optin/class-cartflows-optin.php';
 			}
 
+			if ( class_exists( '\Elementor\Plugin' ) ) {
+				// Load the widgets.
+				include_once CARTFLOWS_DIR . 'modules/elementor/class-cartflows-el-widgets-loader.php';
+			}
+
 			include_once CARTFLOWS_DIR . 'classes/class-cartflows-api.php';
 			include_once CARTFLOWS_DIR . 'classes/class-cartflows-importer-core.php';
 
@@ -369,7 +377,6 @@ if ( ! class_exists( 'Cartflows_Loader' ) ) {
 			include_once CARTFLOWS_DIR . 'classes/class-cartflows-metabox.php';
 
 			include_once CARTFLOWS_DIR . 'classes/deprecated/deprecated-hooks.php';
-
 		}
 
 		/**
@@ -417,6 +424,7 @@ if ( ! class_exists( 'Cartflows_Loader' ) ) {
 				}
 			}
 		}
+
 		/**
 		 * Load CartFlows Pro Text Domain.
 		 * This will load the translation textdomain depending on the file priorities.
@@ -559,8 +567,6 @@ if ( ! class_exists( 'Cartflows_Loader' ) ) {
 		public function logger() {
 			return Cartflows_Logger::get_instance();
 		}
-
-
 	}
 
 	/**
@@ -578,7 +584,6 @@ if ( ! class_exists( 'Cartflows_Loader' ) ) {
 function wcf() {
 	return Cartflows_Loader::get_instance();
 }
-
 
 if ( ! function_exists( '_is_woo_installed' ) ) {
 

@@ -539,6 +539,40 @@ function _wcf_supported_template( $page_template ) {
 }
 
 /**
+ * Display design Metabox Notice.
+ *
+ * @return string
+ * @since x.x.x
+ */
+function wcf_get_page_builder_notice() {
+
+	$notice       = '';
+	$page_builder = Cartflows_Helper::get_common_setting( 'default_page_builder' );
+
+	$page_builder_data = array(
+		'elementor' => array(
+			'name' => 'Elementor',
+			'doc'  => 'https://cartflows.com/docs/elementor-widgets-of-cartflows/',
+		),
+	);
+
+	if ( isset( $page_builder_data[ $page_builder ] ) ) {
+
+		$page_builder_name = $page_builder_data[ $page_builder ]['name'];
+		$doc_link          = $page_builder_data[ $page_builder ]['doc'];
+
+		$notice      = '<div class="wcf-metabox-notice-wrap"><p class="wcf-metabox-notice wcf-pb-modules-notice">';
+			$notice .= '<span class="dashicons dashicons-info"></span> ';
+			/* translators: %1$s page builder name "string" */
+			$notice .= sprintf( __( 'We have introduced %1$1s widgets for CartFlows shortcodes. Now, you can add/change/update design settings directly from the page builder as well.', 'cartflows' ), $page_builder_name );
+			$notice .= ' <a href="' . $doc_link . '" target="_blank">' . __( 'Learn More »', 'cartflows' ) . '</span></a>';
+		$notice     .= '</p></div>';
+	}
+
+	return $notice;
+}
+
+/**
  * Get get step object.
  *
  * @param int $step_id current step ID.

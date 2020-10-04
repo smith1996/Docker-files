@@ -2,9 +2,9 @@
 # This file is distributed under the same license as the CartFlows package.
 msgid ""
 msgstr ""
-"Project-Id-Version: CartFlows 1.5.17\n"
+"Project-Id-Version: CartFlows 1.5.18\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/cartflows\n"
-"POT-Creation-Date: 2020-09-08 06:13:47+00:00\n"
+"POT-Creation-Date: 2020-09-29 10:28:48+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -77,15 +77,15 @@ msgstr ""
 msgid "Every %d Minutes"
 msgstr ""
 
-#: classes/class-cartflows-admin-fields.php:235
+#: classes/class-cartflows-admin-fields.php:241
 msgid "Select"
 msgstr ""
 
-#: classes/class-cartflows-admin-fields.php:238
+#: classes/class-cartflows-admin-fields.php:244
 msgid "No Checkout Steps"
 msgstr ""
 
-#: classes/class-cartflows-admin-fields.php:264
+#: classes/class-cartflows-admin-fields.php:270
 #. translators: %s: link
 msgid ""
 "Be sure not to add any product in above selected Global Checkout step. "
@@ -97,8 +97,8 @@ msgid "Home"
 msgstr ""
 
 #: classes/class-cartflows-admin.php:191 classes/class-cartflows-admin.php:192
-#: modules/optin/classes/class-cartflows-optin-meta.php:150
-#: modules/thankyou/classes/class-cartflows-thankyou-meta.php:148
+#: modules/optin/classes/class-cartflows-optin-meta.php:151
+#: modules/thankyou/classes/class-cartflows-thankyou-meta.php:140
 msgid "Settings"
 msgstr ""
 
@@ -168,8 +168,8 @@ msgstr ""
 msgid "Clone"
 msgstr ""
 
-#: classes/class-cartflows-default-meta.php:745
-#: modules/optin/classes/class-cartflows-optin-meta.php:490
+#: classes/class-cartflows-default-meta.php:735
+#: modules/optin/classes/class-cartflows-optin-meta.php:554
 msgid "Submit"
 msgstr ""
 
@@ -181,6 +181,17 @@ msgstr ""
 
 #: classes/class-cartflows-flow-frontend.php:58
 msgid "Click here to disable it"
+msgstr ""
+
+#: classes/class-cartflows-functions.php:567
+#. translators: %1$s page builder name "string"
+msgid ""
+"We have introduced %1$1s widgets for CartFlows shortcodes. Now, you can "
+"add/change/update design settings directly from the page builder as well."
+msgstr ""
+
+#: classes/class-cartflows-functions.php:568
+msgid "Learn More »"
 msgstr ""
 
 #: classes/class-cartflows-importer.php:81
@@ -386,18 +397,18 @@ msgid ""
 "%1$sCartFlows Pro%2$s plugin to version %1$s%3$s%2$s or higher."
 msgstr ""
 
-#: classes/class-cartflows-loader.php:501
+#: classes/class-cartflows-loader.php:509
 #. translators: %s: html tags
 msgid ""
 "This %1$sCartFlows%2$s page requires %1$sWooCommerce%2$s plugin installed & "
 "activated."
 msgstr ""
 
-#: classes/class-cartflows-loader.php:511
+#: classes/class-cartflows-loader.php:519
 msgid "Activate WooCommerce"
 msgstr ""
 
-#: classes/class-cartflows-loader.php:519
+#: classes/class-cartflows-loader.php:527
 msgid "Install WooCommerce"
 msgstr ""
 
@@ -466,10 +477,10 @@ msgid "Back to edit Flow"
 msgstr ""
 
 #: classes/class-cartflows-meta.php:63
-#: modules/checkout/classes/class-cartflows-checkout-meta.php:198
+#: modules/checkout/classes/class-cartflows-checkout-meta.php:175
 #: modules/landing/classes/class-cartflows-landing-meta.php:136
-#: modules/optin/classes/class-cartflows-optin-meta.php:156
-#: modules/thankyou/classes/class-cartflows-thankyou-meta.php:154
+#: modules/optin/classes/class-cartflows-optin-meta.php:157
+#: modules/thankyou/classes/class-cartflows-thankyou-meta.php:146
 msgid "Custom Script"
 msgstr ""
 
@@ -783,8 +794,12 @@ msgid "Permalink Settings"
 msgstr ""
 
 #: includes/admin/cartflows-general.php:116
-#: modules/checkout/classes/class-cartflows-checkout-meta.php:647
-#: modules/optin/classes/class-cartflows-optin-meta.php:383
+#: modules/checkout/includes/meta-views/design-checkout-style-tab.php:119
+#: modules/elementor/widgets/class-cartflows-el-checkout-form.php:179
+#: modules/elementor/widgets/class-cartflows-el-checkout-form.php:184
+#: modules/elementor/widgets/class-cartflows-el-optin-form.php:146
+#: modules/elementor/widgets/class-cartflows-el-optin-form.php:151
+#: modules/optin/classes/class-cartflows-optin-meta.php:447
 msgid "Default"
 msgstr ""
 
@@ -1036,126 +1051,117 @@ msgstr ""
 msgid "Create Product"
 msgstr ""
 
-#: modules/checkout/classes/class-cartflows-checkout-markup.php:284
-#: modules/optin/classes/class-cartflows-optin-markup.php:166
+#: modules/checkout/classes/class-cartflows-checkout-markup.php:331
+#: modules/optin/classes/class-cartflows-optin-markup.php:179
 #: modules/thankyou/classes/class-cartflows-thankyou-markup.php:90
 msgid ""
 "WooCommerce functions do not exist. If you are in an IFrame, please reload "
 "it."
 msgstr ""
 
-#: modules/checkout/classes/class-cartflows-checkout-markup.php:285
-#: modules/optin/classes/class-cartflows-optin-markup.php:167
+#: modules/checkout/classes/class-cartflows-checkout-markup.php:332
+#: modules/optin/classes/class-cartflows-optin-markup.php:180
 #: modules/thankyou/classes/class-cartflows-thankyou-markup.php:91
 msgid "Click Here to Reload"
 msgstr ""
 
-#: modules/checkout/classes/class-cartflows-checkout-markup.php:303
+#: modules/checkout/classes/class-cartflows-checkout-markup.php:350
 msgid "Checkout ID not found"
 msgstr ""
 
-#: modules/checkout/classes/class-cartflows-checkout-markup.php:366
-#: modules/checkout/templates/embed/checkout-template-simple.php:25
+#: modules/checkout/classes/class-cartflows-checkout-markup.php:413
+#: modules/checkout/templates/embed/checkout-template-simple.php:26
 #: modules/checkout/templates/wcf-template.php:36
 #: modules/optin/templates/optin-template-simple.php:25
 msgid "Your cart is currently empty."
 msgstr ""
 
-#: modules/checkout/classes/class-cartflows-checkout-markup.php:432
+#: modules/checkout/classes/class-cartflows-checkout-markup.php:492
+#. translators: %1$1s, %2$2s Link to meta
 msgid ""
-"No product is selected. Please select products from the checkout meta "
-"settings to continue."
+"No product is selected. Please select products from the %1$1scheckout meta "
+"settings%2$2s to continue."
 msgstr ""
 
-#: modules/checkout/classes/class-cartflows-checkout-markup.php:522
+#: modules/checkout/classes/class-cartflows-checkout-markup.php:587
 msgid "Variations Not set"
 msgstr ""
 
-#: modules/checkout/classes/class-cartflows-checkout-markup.php:533
+#: modules/checkout/classes/class-cartflows-checkout-markup.php:598
 msgid "This product can't be purchased"
 msgstr ""
 
-#: modules/checkout/classes/class-cartflows-checkout-markup.php:978
-#: modules/checkout/classes/class-cartflows-checkout-markup.php:1021
+#: modules/checkout/classes/class-cartflows-checkout-markup.php:1053
+#: modules/checkout/classes/class-cartflows-checkout-markup.php:1096
 msgid "Coupon Code"
 msgstr ""
 
-#: modules/checkout/classes/class-cartflows-checkout-markup.php:979
-#: modules/checkout/classes/class-cartflows-checkout-markup.php:1030
+#: modules/checkout/classes/class-cartflows-checkout-markup.php:1054
+#: modules/checkout/classes/class-cartflows-checkout-markup.php:1105
 msgid "Apply"
 msgstr ""
 
-#: modules/checkout/classes/class-cartflows-checkout-markup.php:1186
+#: modules/checkout/classes/class-cartflows-checkout-markup.php:1242
 msgid "Sorry there was a problem removing this coupon."
 msgstr ""
 
-#: modules/checkout/classes/class-cartflows-checkout-markup.php:1189
+#: modules/checkout/classes/class-cartflows-checkout-markup.php:1245
 msgid "Coupon has been removed."
 msgstr ""
 
-#: modules/checkout/classes/class-cartflows-checkout-markup.php:1208
+#: modules/checkout/classes/class-cartflows-checkout-markup.php:1264
 msgid "Sorry there was a problem removing "
 msgstr ""
 
-#: modules/checkout/classes/class-cartflows-checkout-markup.php:1211
+#: modules/checkout/classes/class-cartflows-checkout-markup.php:1267
 msgid " has been removed."
 msgstr ""
 
-#: modules/checkout/classes/class-cartflows-checkout-meta.php:65
-msgid "Checkout Layout"
-msgstr ""
-
-#: modules/checkout/classes/class-cartflows-checkout-meta.php:150
-#: modules/landing/classes/class-cartflows-landing-meta.php:130
-#: modules/optin/classes/class-cartflows-optin-meta.php:126
-#: modules/thankyou/classes/class-cartflows-thankyou-meta.php:130
-msgid "Shortcodes"
-msgstr ""
-
-#: modules/checkout/classes/class-cartflows-checkout-meta.php:156
-#: modules/optin/classes/class-cartflows-optin-meta.php:132
-msgid "Select Product"
-msgstr ""
-
-#: modules/checkout/classes/class-cartflows-checkout-meta.php:162
-msgid "Product Options"
-msgstr ""
-
-#: modules/checkout/classes/class-cartflows-checkout-meta.php:168
-msgid "Order Bump"
-msgstr ""
-
-#: modules/checkout/classes/class-cartflows-checkout-meta.php:174
-msgid "Checkout Offer"
-msgstr ""
-
-#: modules/checkout/classes/class-cartflows-checkout-meta.php:180
-msgid "Checkout Design"
-msgstr ""
-
-#: modules/checkout/classes/class-cartflows-checkout-meta.php:186
-msgid "Checkout Fields"
-msgstr ""
-
-#: modules/checkout/classes/class-cartflows-checkout-meta.php:192
+#: modules/checkout/classes/class-cartflows-checkout-meta.php:94
+#: modules/checkout/classes/class-cartflows-checkout-meta.php:169
 msgid "Checkout Settings"
 msgstr ""
 
-#: modules/checkout/classes/class-cartflows-checkout-meta.php:209
+#: modules/checkout/classes/class-cartflows-checkout-meta.php:103
+msgid "Checkout Layout & Design"
+msgstr ""
+
+#: modules/checkout/classes/class-cartflows-checkout-meta.php:139
+#: modules/optin/classes/class-cartflows-optin-meta.php:139
+msgid "Select Product"
+msgstr ""
+
+#: modules/checkout/classes/class-cartflows-checkout-meta.php:145
+msgid "Product Options"
+msgstr ""
+
+#: modules/checkout/classes/class-cartflows-checkout-meta.php:151
+msgid "Order Bump"
+msgstr ""
+
+#: modules/checkout/classes/class-cartflows-checkout-meta.php:157
+msgid "Checkout Offer"
+msgstr ""
+
+#: modules/checkout/classes/class-cartflows-checkout-meta.php:163
+msgid "Checkout Fields"
+msgstr ""
+
+#: modules/checkout/classes/class-cartflows-checkout-meta.php:186
 msgid "Logo (Optional)"
 msgstr ""
 
-#: modules/checkout/classes/class-cartflows-checkout-meta.php:270
+#: modules/checkout/classes/class-cartflows-checkout-meta.php:271
 #. translators: %s: link
 msgid "Upgrade to %1$sCartFlows Pro%2$s for Product Options feature."
 msgstr ""
 
-#: modules/checkout/classes/class-cartflows-checkout-meta.php:281
+#: modules/checkout/classes/class-cartflows-checkout-meta.php:282
 #. translators: %s: link.
 msgid "Update %1$sCartFlows Pro%2$s to %3$s or above for Product Options"
 msgstr ""
 
-#: modules/checkout/classes/class-cartflows-checkout-meta.php:309
+#: modules/checkout/classes/class-cartflows-checkout-meta.php:310
 msgid "Add this shortcode to your checkout page"
 msgstr ""
 
@@ -1192,7 +1198,7 @@ msgid "Upgrade to %1$sCartFlows Pro%2$s for Order Bump feature."
 msgstr ""
 
 #: modules/checkout/classes/class-cartflows-checkout-meta.php:469
-#: modules/optin/classes/class-cartflows-optin-meta.php:270
+#: modules/optin/classes/class-cartflows-optin-meta.php:334
 #. translators: %s: link
 msgid "Upgrade to %1$sCartFlows Pro%2$s for Custom Fields feature."
 msgstr ""
@@ -1218,214 +1224,280 @@ msgstr ""
 msgid "Users will able to remove products from the checkout page."
 msgstr ""
 
-#: modules/checkout/classes/class-cartflows-checkout-meta.php:546
-msgid "One Column (Available in CartFlows Pro) "
-msgstr ""
-
-#: modules/checkout/classes/class-cartflows-checkout-meta.php:547
-msgid "Two Step (Available in CartFlows Pro) "
-msgstr ""
-
-#: modules/checkout/classes/class-cartflows-checkout-meta.php:553
-msgid "Checkout Skin"
-msgstr ""
-
 #: modules/checkout/classes/class-cartflows-checkout-meta.php:557
-msgid "One Column"
-msgstr ""
-
-#: modules/checkout/classes/class-cartflows-checkout-meta.php:558
-msgid "Two Column"
-msgstr ""
-
-#: modules/checkout/classes/class-cartflows-checkout-meta.php:559
-msgid "Two Step"
-msgstr ""
-
-#: modules/checkout/classes/class-cartflows-checkout-meta.php:568
-#: modules/optin/classes/class-cartflows-optin-meta.php:346
-msgid "Primary Color"
-msgstr ""
-
-#: modules/checkout/classes/class-cartflows-checkout-meta.php:577
-#: modules/checkout/classes/class-cartflows-checkout-meta.php:612
-#: modules/checkout/classes/class-cartflows-checkout-meta.php:658
-#: modules/checkout/classes/class-cartflows-checkout-meta.php:750
-#: modules/optin/classes/class-cartflows-optin-meta.php:355
-#: modules/optin/classes/class-cartflows-optin-meta.php:394
-#: modules/optin/classes/class-cartflows-optin-meta.php:506
-#: modules/thankyou/classes/class-cartflows-thankyou-meta.php:209
-#: modules/thankyou/classes/class-cartflows-thankyou-meta.php:240
-msgid "Font Family"
-msgstr ""
-
-#: modules/checkout/classes/class-cartflows-checkout-meta.php:585
-msgid "Advance Options"
-msgstr ""
-
-#: modules/checkout/classes/class-cartflows-checkout-meta.php:597
-#: modules/thankyou/classes/class-cartflows-thankyou-meta.php:225
-msgid "Heading"
-msgstr ""
-
-#: modules/checkout/classes/class-cartflows-checkout-meta.php:603
-msgid "Heading Color"
-msgstr ""
-
-#: modules/checkout/classes/class-cartflows-checkout-meta.php:621
-#: modules/checkout/classes/class-cartflows-checkout-meta.php:667
-#: modules/checkout/classes/class-cartflows-checkout-meta.php:759
-#: modules/optin/classes/class-cartflows-optin-meta.php:403
-#: modules/optin/classes/class-cartflows-optin-meta.php:515
-#: modules/thankyou/classes/class-cartflows-thankyou-meta.php:249
-msgid "Font Weight"
-msgstr ""
-
-#: modules/checkout/classes/class-cartflows-checkout-meta.php:629
-#: modules/optin/classes/class-cartflows-optin-meta.php:366
-msgid "Input Fields"
-msgstr ""
-
-#: modules/checkout/classes/class-cartflows-checkout-meta.php:637
-#: modules/optin/classes/class-cartflows-optin-meta.php:373
-msgid "Floating Labels (Available in CartFlows Pro)"
-msgstr ""
-
-#: modules/checkout/classes/class-cartflows-checkout-meta.php:643
-#: modules/optin/classes/class-cartflows-optin-meta.php:379
-msgid "Style"
-msgstr ""
-
-#: modules/checkout/classes/class-cartflows-checkout-meta.php:648
-#: modules/optin/classes/class-cartflows-optin-meta.php:384
-msgid "Floating Labels"
-msgstr ""
-
-#: modules/checkout/classes/class-cartflows-checkout-meta.php:675
-#: modules/checkout/classes/class-cartflows-checkout-meta.php:767
-#: modules/optin/classes/class-cartflows-optin-meta.php:411
-#: modules/optin/classes/class-cartflows-optin-meta.php:523
-msgid "Size"
-msgstr ""
-
-#: modules/checkout/classes/class-cartflows-checkout-meta.php:679
-#: modules/checkout/classes/class-cartflows-checkout-meta.php:771
-#: modules/optin/classes/class-cartflows-optin-meta.php:415
-#: modules/optin/classes/class-cartflows-optin-meta.php:527
-msgid "Extra Small"
-msgstr ""
-
-#: modules/checkout/classes/class-cartflows-checkout-meta.php:680
-#: modules/checkout/classes/class-cartflows-checkout-meta.php:772
-#: modules/optin/classes/class-cartflows-optin-meta.php:416
-#: modules/optin/classes/class-cartflows-optin-meta.php:528
-msgid "Small"
-msgstr ""
-
-#: modules/checkout/classes/class-cartflows-checkout-meta.php:681
-#: modules/checkout/classes/class-cartflows-checkout-meta.php:773
-#: modules/optin/classes/class-cartflows-optin-meta.php:417
-#: modules/optin/classes/class-cartflows-optin-meta.php:529
-msgid "Medium"
-msgstr ""
-
-#: modules/checkout/classes/class-cartflows-checkout-meta.php:682
-#: modules/checkout/classes/class-cartflows-checkout-meta.php:774
-#: modules/optin/classes/class-cartflows-optin-meta.php:418
-#: modules/optin/classes/class-cartflows-optin-meta.php:530
-msgid "Large"
-msgstr ""
-
-#: modules/checkout/classes/class-cartflows-checkout-meta.php:683
-#: modules/checkout/classes/class-cartflows-checkout-meta.php:775
-#: modules/optin/classes/class-cartflows-optin-meta.php:419
-#: modules/optin/classes/class-cartflows-optin-meta.php:531
-msgid "Extra Large"
-msgstr ""
-
-#: modules/checkout/classes/class-cartflows-checkout-meta.php:684
-#: modules/checkout/classes/class-cartflows-checkout-meta.php:776
-#: modules/optin/classes/class-cartflows-optin-meta.php:420
-#: modules/optin/classes/class-cartflows-optin-meta.php:532
-msgid "Custom"
-msgstr ""
-
-#: modules/checkout/classes/class-cartflows-checkout-meta.php:691
-#: modules/checkout/classes/class-cartflows-checkout-meta.php:783
-#: modules/optin/classes/class-cartflows-optin-meta.php:427
-#: modules/optin/classes/class-cartflows-optin-meta.php:539
-msgid "Top Bottom Spacing"
-msgstr ""
-
-#: modules/checkout/classes/class-cartflows-checkout-meta.php:699
-#: modules/checkout/classes/class-cartflows-checkout-meta.php:791
-#: modules/optin/classes/class-cartflows-optin-meta.php:435
-#: modules/optin/classes/class-cartflows-optin-meta.php:547
-msgid "Left Right Spacing"
-msgstr ""
-
-#: modules/checkout/classes/class-cartflows-checkout-meta.php:707
-#: modules/optin/classes/class-cartflows-optin-meta.php:451
-msgid "Text / Placeholder Color"
-msgstr ""
-
-#: modules/checkout/classes/class-cartflows-checkout-meta.php:715
-#: modules/checkout/classes/class-cartflows-checkout-meta.php:815
-#: modules/optin/classes/class-cartflows-optin-meta.php:459
-#: modules/optin/classes/class-cartflows-optin-meta.php:584
-msgid "Background Color"
-msgstr ""
-
-#: modules/checkout/classes/class-cartflows-checkout-meta.php:723
-#: modules/checkout/classes/class-cartflows-checkout-meta.php:831
-#: modules/optin/classes/class-cartflows-optin-meta.php:467
-#: modules/optin/classes/class-cartflows-optin-meta.php:600
-msgid "Border Color"
-msgstr ""
-
-#: modules/checkout/classes/class-cartflows-checkout-meta.php:730
-#: modules/optin/classes/class-cartflows-optin-meta.php:443
-msgid "Label Color"
-msgstr ""
-
-#: modules/checkout/classes/class-cartflows-checkout-meta.php:743
-msgid "Buttons"
-msgstr ""
-
-#: modules/checkout/classes/class-cartflows-checkout-meta.php:799
-#: modules/optin/classes/class-cartflows-optin-meta.php:568
-msgid "Text Color"
-msgstr ""
-
-#: modules/checkout/classes/class-cartflows-checkout-meta.php:807
-#: modules/optin/classes/class-cartflows-optin-meta.php:576
-msgid "Text Hover Color"
-msgstr ""
-
-#: modules/checkout/classes/class-cartflows-checkout-meta.php:823
-#: modules/optin/classes/class-cartflows-optin-meta.php:592
-msgid "Background Hover Color"
-msgstr ""
-
-#: modules/checkout/classes/class-cartflows-checkout-meta.php:839
-#: modules/optin/classes/class-cartflows-optin-meta.php:608
-msgid "Border Hover Color"
-msgstr ""
-
-#: modules/checkout/classes/class-cartflows-checkout-meta.php:852
-msgid "Sections"
-msgstr ""
-
-#: modules/checkout/classes/class-cartflows-checkout-meta.php:858
-msgid "Highlight Area Background Color"
-msgstr ""
-
-#: modules/checkout/classes/class-cartflows-checkout-meta.php:897
 msgid "Header Logo"
 msgstr ""
 
-#: modules/checkout/classes/class-cartflows-checkout-meta.php:905
+#: modules/checkout/classes/class-cartflows-checkout-meta.php:565
 msgid "Logo Width (In px)"
+msgstr ""
+
+#: modules/checkout/includes/meta-views/design-checkout-metabox-markup.php:12
+#: modules/landing/classes/class-cartflows-landing-meta.php:130
+#: modules/optin/classes/class-cartflows-optin-meta.php:220
+#: modules/thankyou/classes/class-cartflows-thankyou-meta.php:244
+msgid "Shortcodes"
+msgstr ""
+
+#: modules/checkout/includes/meta-views/design-checkout-metabox-markup.php:18
+msgid "Checkout Design"
+msgstr ""
+
+#: modules/checkout/includes/meta-views/design-checkout-style-tab.php:18
+msgid "One Column (Available in CartFlows Pro) "
+msgstr ""
+
+#: modules/checkout/includes/meta-views/design-checkout-style-tab.php:19
+msgid "Two Step (Available in CartFlows Pro) "
+msgstr ""
+
+#: modules/checkout/includes/meta-views/design-checkout-style-tab.php:25
+msgid "Checkout Skin"
+msgstr ""
+
+#: modules/checkout/includes/meta-views/design-checkout-style-tab.php:29
+#: modules/elementor/widgets/class-cartflows-el-checkout-form.php:158
+msgid "One Column"
+msgstr ""
+
+#: modules/checkout/includes/meta-views/design-checkout-style-tab.php:30
+#: modules/elementor/widgets/class-cartflows-el-checkout-form.php:153
+#: modules/elementor/widgets/class-cartflows-el-checkout-form.php:159
+msgid "Two Column"
+msgstr ""
+
+#: modules/checkout/includes/meta-views/design-checkout-style-tab.php:31
+#: modules/elementor/widgets/class-cartflows-el-checkout-form.php:160
+msgid "Two Step"
+msgstr ""
+
+#: modules/checkout/includes/meta-views/design-checkout-style-tab.php:40
+#: modules/elementor/widgets/class-cartflows-el-checkout-form.php:302
+#: modules/elementor/widgets/class-cartflows-el-optin-form.php:177
+#: modules/optin/classes/class-cartflows-optin-meta.php:410
+msgid "Primary Color"
+msgstr ""
+
+#: modules/checkout/includes/meta-views/design-checkout-style-tab.php:49
+#: modules/checkout/includes/meta-views/design-checkout-style-tab.php:84
+#: modules/checkout/includes/meta-views/design-checkout-style-tab.php:130
+#: modules/checkout/includes/meta-views/design-checkout-style-tab.php:222
+#: modules/optin/classes/class-cartflows-optin-meta.php:419
+#: modules/optin/classes/class-cartflows-optin-meta.php:458
+#: modules/optin/classes/class-cartflows-optin-meta.php:570
+#: modules/thankyou/classes/class-cartflows-thankyou-meta.php:311
+#: modules/thankyou/classes/class-cartflows-thankyou-meta.php:342
+msgid "Font Family"
+msgstr ""
+
+#: modules/checkout/includes/meta-views/design-checkout-style-tab.php:57
+msgid "Advance Options"
+msgstr ""
+
+#: modules/checkout/includes/meta-views/design-checkout-style-tab.php:69
+#: modules/elementor/widgets/class-cartflows-el-checkout-form.php:396
+#: modules/elementor/widgets/class-cartflows-el-order-details-form.php:290
+#: modules/elementor/widgets/class-cartflows-el-order-details-form.php:509
+#: modules/elementor/widgets/class-cartflows-el-order-details-form.php:602
+#: modules/elementor/widgets/class-cartflows-el-order-details-form.php:691
+#: modules/thankyou/classes/class-cartflows-thankyou-meta.php:327
+msgid "Heading"
+msgstr ""
+
+#: modules/checkout/includes/meta-views/design-checkout-style-tab.php:75
+msgid "Heading Color"
+msgstr ""
+
+#: modules/checkout/includes/meta-views/design-checkout-style-tab.php:93
+#: modules/checkout/includes/meta-views/design-checkout-style-tab.php:139
+#: modules/checkout/includes/meta-views/design-checkout-style-tab.php:231
+#: modules/optin/classes/class-cartflows-optin-meta.php:467
+#: modules/optin/classes/class-cartflows-optin-meta.php:579
+#: modules/thankyou/classes/class-cartflows-thankyou-meta.php:351
+msgid "Font Weight"
+msgstr ""
+
+#: modules/checkout/includes/meta-views/design-checkout-style-tab.php:101
+#: modules/elementor/widgets/class-cartflows-el-checkout-form.php:443
+#: modules/elementor/widgets/class-cartflows-el-optin-form.php:208
+#: modules/optin/classes/class-cartflows-optin-meta.php:430
+msgid "Input Fields"
+msgstr ""
+
+#: modules/checkout/includes/meta-views/design-checkout-style-tab.php:109
+#: modules/optin/classes/class-cartflows-optin-meta.php:437
+msgid "Floating Labels (Available in CartFlows Pro)"
+msgstr ""
+
+#: modules/checkout/includes/meta-views/design-checkout-style-tab.php:115
+#: modules/elementor/widgets/class-cartflows-el-checkout-form.php:451
+#: modules/elementor/widgets/class-cartflows-el-optin-form.php:216
+#: modules/optin/classes/class-cartflows-optin-meta.php:443
+msgid "Style"
+msgstr ""
+
+#: modules/checkout/includes/meta-views/design-checkout-style-tab.php:120
+#: modules/elementor/widgets/class-cartflows-el-checkout-form.php:185
+#: modules/elementor/widgets/class-cartflows-el-optin-form.php:152
+#: modules/optin/classes/class-cartflows-optin-meta.php:448
+msgid "Floating Labels"
+msgstr ""
+
+#: modules/checkout/includes/meta-views/design-checkout-style-tab.php:147
+#: modules/checkout/includes/meta-views/design-checkout-style-tab.php:239
+#: modules/optin/classes/class-cartflows-optin-meta.php:475
+#: modules/optin/classes/class-cartflows-optin-meta.php:587
+msgid "Size"
+msgstr ""
+
+#: modules/checkout/includes/meta-views/design-checkout-style-tab.php:151
+#: modules/checkout/includes/meta-views/design-checkout-style-tab.php:243
+#: modules/optin/classes/class-cartflows-optin-meta.php:479
+#: modules/optin/classes/class-cartflows-optin-meta.php:591
+msgid "Extra Small"
+msgstr ""
+
+#: modules/checkout/includes/meta-views/design-checkout-style-tab.php:152
+#: modules/checkout/includes/meta-views/design-checkout-style-tab.php:244
+#: modules/optin/classes/class-cartflows-optin-meta.php:480
+#: modules/optin/classes/class-cartflows-optin-meta.php:592
+msgid "Small"
+msgstr ""
+
+#: modules/checkout/includes/meta-views/design-checkout-style-tab.php:153
+#: modules/checkout/includes/meta-views/design-checkout-style-tab.php:245
+#: modules/optin/classes/class-cartflows-optin-meta.php:481
+#: modules/optin/classes/class-cartflows-optin-meta.php:593
+msgid "Medium"
+msgstr ""
+
+#: modules/checkout/includes/meta-views/design-checkout-style-tab.php:154
+#: modules/checkout/includes/meta-views/design-checkout-style-tab.php:246
+#: modules/optin/classes/class-cartflows-optin-meta.php:482
+#: modules/optin/classes/class-cartflows-optin-meta.php:594
+msgid "Large"
+msgstr ""
+
+#: modules/checkout/includes/meta-views/design-checkout-style-tab.php:155
+#: modules/checkout/includes/meta-views/design-checkout-style-tab.php:247
+#: modules/optin/classes/class-cartflows-optin-meta.php:483
+#: modules/optin/classes/class-cartflows-optin-meta.php:595
+msgid "Extra Large"
+msgstr ""
+
+#: modules/checkout/includes/meta-views/design-checkout-style-tab.php:156
+#: modules/checkout/includes/meta-views/design-checkout-style-tab.php:248
+#: modules/optin/classes/class-cartflows-optin-meta.php:484
+#: modules/optin/classes/class-cartflows-optin-meta.php:596
+msgid "Custom"
+msgstr ""
+
+#: modules/checkout/includes/meta-views/design-checkout-style-tab.php:163
+#: modules/checkout/includes/meta-views/design-checkout-style-tab.php:255
+#: modules/optin/classes/class-cartflows-optin-meta.php:491
+#: modules/optin/classes/class-cartflows-optin-meta.php:603
+msgid "Top Bottom Spacing"
+msgstr ""
+
+#: modules/checkout/includes/meta-views/design-checkout-style-tab.php:171
+#: modules/checkout/includes/meta-views/design-checkout-style-tab.php:263
+#: modules/optin/classes/class-cartflows-optin-meta.php:499
+#: modules/optin/classes/class-cartflows-optin-meta.php:611
+msgid "Left Right Spacing"
+msgstr ""
+
+#: modules/checkout/includes/meta-views/design-checkout-style-tab.php:179
+#: modules/optin/classes/class-cartflows-optin-meta.php:515
+msgid "Text / Placeholder Color"
+msgstr ""
+
+#: modules/checkout/includes/meta-views/design-checkout-style-tab.php:187
+#: modules/checkout/includes/meta-views/design-checkout-style-tab.php:287
+#: modules/elementor/widgets/class-cartflows-el-checkout-form.php:679
+#: modules/elementor/widgets/class-cartflows-el-checkout-form.php:789
+#: modules/elementor/widgets/class-cartflows-el-checkout-form.php:995
+#: modules/elementor/widgets/class-cartflows-el-next-step-button.php:371
+#: modules/elementor/widgets/class-cartflows-el-optin-form.php:388
+#: modules/elementor/widgets/class-cartflows-el-optin-form.php:458
+#: modules/elementor/widgets/class-cartflows-el-order-details-form.php:426
+#: modules/elementor/widgets/class-cartflows-el-order-details-form.php:481
+#: modules/elementor/widgets/class-cartflows-el-order-details-form.php:571
+#: modules/elementor/widgets/class-cartflows-el-order-details-form.php:662
+#: modules/elementor/widgets/class-cartflows-el-order-details-form.php:751
+#: modules/optin/classes/class-cartflows-optin-meta.php:523
+#: modules/optin/classes/class-cartflows-optin-meta.php:648
+msgid "Background Color"
+msgstr ""
+
+#: modules/checkout/includes/meta-views/design-checkout-style-tab.php:195
+#: modules/checkout/includes/meta-views/design-checkout-style-tab.php:303
+#: modules/elementor/widgets/class-cartflows-el-checkout-form.php:582
+#: modules/elementor/widgets/class-cartflows-el-checkout-form.php:1008
+#: modules/elementor/widgets/class-cartflows-el-optin-form.php:315
+#: modules/optin/classes/class-cartflows-optin-meta.php:531
+#: modules/optin/classes/class-cartflows-optin-meta.php:664
+msgid "Border Color"
+msgstr ""
+
+#: modules/checkout/includes/meta-views/design-checkout-style-tab.php:202
+#: modules/elementor/widgets/class-cartflows-el-checkout-form.php:495
+#: modules/elementor/widgets/class-cartflows-el-checkout-form.php:941
+#: modules/elementor/widgets/class-cartflows-el-optin-form.php:251
+#: modules/optin/classes/class-cartflows-optin-meta.php:507
+msgid "Label Color"
+msgstr ""
+
+#: modules/checkout/includes/meta-views/design-checkout-style-tab.php:215
+#: modules/elementor/widgets/class-cartflows-el-checkout-form.php:626
+msgid "Buttons"
+msgstr ""
+
+#: modules/checkout/includes/meta-views/design-checkout-style-tab.php:271
+#: modules/elementor/widgets/class-cartflows-el-checkout-form.php:364
+#: modules/elementor/widgets/class-cartflows-el-checkout-form.php:659
+#: modules/elementor/widgets/class-cartflows-el-checkout-form.php:754
+#: modules/elementor/widgets/class-cartflows-el-checkout-form.php:825
+#: modules/elementor/widgets/class-cartflows-el-next-step-button.php:358
+#: modules/elementor/widgets/class-cartflows-el-optin-form.php:375
+#: modules/elementor/widgets/class-cartflows-el-optin-form.php:435
+#: modules/elementor/widgets/class-cartflows-el-order-details-form.php:323
+#: modules/elementor/widgets/class-cartflows-el-order-details-form.php:372
+#: modules/elementor/widgets/class-cartflows-el-order-details-form.php:402
+#: modules/elementor/widgets/class-cartflows-el-order-details-form.php:468
+#: modules/elementor/widgets/class-cartflows-el-order-details-form.php:527
+#: modules/elementor/widgets/class-cartflows-el-order-details-form.php:558
+#: modules/elementor/widgets/class-cartflows-el-order-details-form.php:619
+#: modules/elementor/widgets/class-cartflows-el-order-details-form.php:649
+#: modules/elementor/widgets/class-cartflows-el-order-details-form.php:708
+#: modules/elementor/widgets/class-cartflows-el-order-details-form.php:738
+#: modules/optin/classes/class-cartflows-optin-meta.php:632
+msgid "Text Color"
+msgstr ""
+
+#: modules/checkout/includes/meta-views/design-checkout-style-tab.php:279
+#: modules/optin/classes/class-cartflows-optin-meta.php:640
+msgid "Text Hover Color"
+msgstr ""
+
+#: modules/checkout/includes/meta-views/design-checkout-style-tab.php:295
+#: modules/optin/classes/class-cartflows-optin-meta.php:656
+msgid "Background Hover Color"
+msgstr ""
+
+#: modules/checkout/includes/meta-views/design-checkout-style-tab.php:311
+#: modules/elementor/widgets/class-cartflows-el-checkout-form.php:771
+#: modules/elementor/widgets/class-cartflows-el-optin-form.php:446
+#: modules/optin/classes/class-cartflows-optin-meta.php:672
+msgid "Border Hover Color"
+msgstr ""
+
+#: modules/checkout/includes/meta-views/design-checkout-style-tab.php:324
+#: modules/elementor/widgets/class-cartflows-el-order-details-form.php:356
+msgid "Sections"
+msgstr ""
+
+#: modules/checkout/includes/meta-views/design-checkout-style-tab.php:330
+msgid "Highlight Area Background Color"
 msgstr ""
 
 #: modules/checkout/templates/wcf-template.php:46
@@ -1434,6 +1506,422 @@ msgstr ""
 
 #: modules/checkout/templates/wcf-template.php:50
 msgid "All Rights Reserved"
+msgstr ""
+
+#: modules/elementor/class-cartflows-el-widgets-loader.php:120
+msgid "Cartflows"
+msgstr ""
+
+#: modules/elementor/widgets/class-cartflows-el-checkout-form.php:66
+msgid "Checkout Form"
+msgstr ""
+
+#: modules/elementor/widgets/class-cartflows-el-checkout-form.php:152
+msgid "One Column ( PRO )"
+msgstr ""
+
+#: modules/elementor/widgets/class-cartflows-el-checkout-form.php:154
+msgid "Two Step ( PRO )"
+msgstr ""
+
+#: modules/elementor/widgets/class-cartflows-el-checkout-form.php:180
+#: modules/elementor/widgets/class-cartflows-el-optin-form.php:147
+msgid "Floating Labels ( PRO )"
+msgstr ""
+
+#: modules/elementor/widgets/class-cartflows-el-checkout-form.php:203
+msgid "Layout"
+msgstr ""
+
+#: modules/elementor/widgets/class-cartflows-el-checkout-form.php:210
+msgid "Select Layout"
+msgstr ""
+
+#: modules/elementor/widgets/class-cartflows-el-checkout-form.php:224
+#: modules/elementor/widgets/class-cartflows-el-checkout-form.php:465
+#: modules/elementor/widgets/class-cartflows-el-optin-form.php:230
+#. translators: %s admin link
+msgid ""
+"This feature is available in the CartFlows Pro. <a href=\"%s\" "
+"target=\"_blank\" rel=\"noopener\">Upgrade Now!</a>."
+msgstr ""
+
+#: modules/elementor/widgets/class-cartflows-el-checkout-form.php:247
+msgid "Other Settings"
+msgstr ""
+
+#: modules/elementor/widgets/class-cartflows-el-checkout-form.php:254
+msgid "Billing Section Text"
+msgstr ""
+
+#: modules/elementor/widgets/class-cartflows-el-checkout-form.php:256
+msgid "Billing Details"
+msgstr ""
+
+#: modules/elementor/widgets/class-cartflows-el-checkout-form.php:264
+msgid "Shipping Section Text"
+msgstr ""
+
+#: modules/elementor/widgets/class-cartflows-el-checkout-form.php:266
+msgid "Shipping Details"
+msgstr ""
+
+#: modules/elementor/widgets/class-cartflows-el-checkout-form.php:274
+msgid "Order Review Text"
+msgstr ""
+
+#: modules/elementor/widgets/class-cartflows-el-checkout-form.php:276
+#: woocommerce/template/checkout/form-checkout.php:56
+msgid "Your order"
+msgstr ""
+
+#: modules/elementor/widgets/class-cartflows-el-checkout-form.php:294
+msgid "Global"
+msgstr ""
+
+#: modules/elementor/widgets/class-cartflows-el-checkout-form.php:404
+#: modules/thankyou/classes/class-cartflows-thankyou-meta.php:302
+#: modules/thankyou/classes/class-cartflows-thankyou-meta.php:333
+msgid "Color"
+msgstr ""
+
+#: modules/elementor/widgets/class-cartflows-el-checkout-form.php:507
+#: modules/elementor/widgets/class-cartflows-el-optin-form.php:262
+msgid "Field Background Color"
+msgstr ""
+
+#: modules/elementor/widgets/class-cartflows-el-checkout-form.php:523
+#: modules/elementor/widgets/class-cartflows-el-optin-form.php:273
+msgid "Input Text / Placeholder Color"
+msgstr ""
+
+#: modules/elementor/widgets/class-cartflows-el-checkout-form.php:541
+#: modules/elementor/widgets/class-cartflows-el-optin-form.php:284
+msgid "Border Style"
+msgstr ""
+
+#: modules/elementor/widgets/class-cartflows-el-checkout-form.php:546
+#: modules/elementor/widgets/class-cartflows-el-optin-form.php:289
+msgid "Inherit"
+msgstr ""
+
+#: modules/elementor/widgets/class-cartflows-el-checkout-form.php:547
+#: modules/elementor/widgets/class-cartflows-el-optin-form.php:290
+msgid "Solid"
+msgstr ""
+
+#: modules/elementor/widgets/class-cartflows-el-checkout-form.php:548
+#: modules/elementor/widgets/class-cartflows-el-optin-form.php:291
+msgid "Double"
+msgstr ""
+
+#: modules/elementor/widgets/class-cartflows-el-checkout-form.php:549
+#: modules/elementor/widgets/class-cartflows-el-optin-form.php:292
+msgid "Dotted"
+msgstr ""
+
+#: modules/elementor/widgets/class-cartflows-el-checkout-form.php:550
+#: modules/elementor/widgets/class-cartflows-el-optin-form.php:293
+msgid "Dashed"
+msgstr ""
+
+#: modules/elementor/widgets/class-cartflows-el-checkout-form.php:565
+#: modules/elementor/widgets/class-cartflows-el-optin-form.php:303
+msgid "Border Width"
+msgstr ""
+
+#: modules/elementor/widgets/class-cartflows-el-checkout-form.php:598
+#: modules/elementor/widgets/class-cartflows-el-checkout-form.php:711
+#: modules/elementor/widgets/class-cartflows-el-next-step-button.php:397
+#: modules/elementor/widgets/class-cartflows-el-optin-form.php:326
+#: modules/elementor/widgets/class-cartflows-el-optin-form.php:406
+msgid "Rounded Corners"
+msgstr ""
+
+#: modules/elementor/widgets/class-cartflows-el-checkout-form.php:652
+#: modules/elementor/widgets/class-cartflows-el-next-step-button.php:351
+#: modules/elementor/widgets/class-cartflows-el-optin-form.php:368
+msgid "Normal"
+msgstr ""
+
+#: modules/elementor/widgets/class-cartflows-el-checkout-form.php:696
+#: modules/elementor/widgets/class-cartflows-el-next-step-button.php:389
+#: modules/elementor/widgets/class-cartflows-el-optin-form.php:398
+msgid "Border"
+msgstr ""
+
+#: modules/elementor/widgets/class-cartflows-el-checkout-form.php:747
+#: modules/elementor/widgets/class-cartflows-el-next-step-button.php:411
+#: modules/elementor/widgets/class-cartflows-el-optin-form.php:428
+msgid "Hover"
+msgstr ""
+
+#: modules/elementor/widgets/class-cartflows-el-checkout-form.php:818
+msgid "Payment Section"
+msgstr ""
+
+#: modules/elementor/widgets/class-cartflows-el-checkout-form.php:839
+msgid "Description Color"
+msgstr ""
+
+#: modules/elementor/widgets/class-cartflows-el-checkout-form.php:851
+#: modules/thankyou/classes/class-cartflows-thankyou-meta.php:377
+msgid "Section Background Color"
+msgstr ""
+
+#: modules/elementor/widgets/class-cartflows-el-checkout-form.php:863
+msgid "Information Background Color"
+msgstr ""
+
+#: modules/elementor/widgets/class-cartflows-el-checkout-form.php:877
+msgid "Section Padding"
+msgstr ""
+
+#: modules/elementor/widgets/class-cartflows-el-checkout-form.php:890
+msgid "Section Margin"
+msgstr ""
+
+#: modules/elementor/widgets/class-cartflows-el-checkout-form.php:902
+msgid "Section Rounded Corners"
+msgstr ""
+
+#: modules/elementor/widgets/class-cartflows-el-checkout-form.php:924
+msgid "Field Validation & Error Messages"
+msgstr ""
+
+#: modules/elementor/widgets/class-cartflows-el-checkout-form.php:932
+msgid "Field Validation"
+msgstr ""
+
+#: modules/elementor/widgets/class-cartflows-el-checkout-form.php:953
+msgid "Field Border Color"
+msgstr ""
+
+#: modules/elementor/widgets/class-cartflows-el-checkout-form.php:972
+msgid "Error Messages"
+msgstr ""
+
+#: modules/elementor/widgets/class-cartflows-el-checkout-form.php:981
+msgid "Error Message Color"
+msgstr ""
+
+#: modules/elementor/widgets/class-cartflows-el-checkout-form.php:1058
+msgid ""
+"No product is selected. Please select products from the checkout meta "
+"settings to continue."
+msgstr ""
+
+#: modules/elementor/widgets/class-cartflows-el-next-step-button.php:70
+msgid "Next Step Button"
+msgstr ""
+
+#: modules/elementor/widgets/class-cartflows-el-next-step-button.php:157
+#: modules/elementor/widgets/class-cartflows-el-next-step-button.php:291
+#: modules/elementor/widgets/class-cartflows-el-optin-form.php:169
+#: modules/elementor/widgets/class-cartflows-el-order-details-form.php:156
+msgid "General"
+msgstr ""
+
+#: modules/elementor/widgets/class-cartflows-el-next-step-button.php:164
+msgid "Title"
+msgstr ""
+
+#: modules/elementor/widgets/class-cartflows-el-next-step-button.php:166
+msgid "BUY NOW"
+msgstr ""
+
+#: modules/elementor/widgets/class-cartflows-el-next-step-button.php:176
+msgid "Sub Title"
+msgstr ""
+
+#: modules/elementor/widgets/class-cartflows-el-next-step-button.php:187
+msgid "Icon"
+msgstr ""
+
+#: modules/elementor/widgets/class-cartflows-el-next-step-button.php:195
+msgid "Icon Position"
+msgstr ""
+
+#: modules/elementor/widgets/class-cartflows-el-next-step-button.php:199
+msgid "Before Title"
+msgstr ""
+
+#: modules/elementor/widgets/class-cartflows-el-next-step-button.php:200
+msgid "After Title"
+msgstr ""
+
+#: modules/elementor/widgets/class-cartflows-el-next-step-button.php:201
+msgid "Before Title & Sub Title"
+msgstr ""
+
+#: modules/elementor/widgets/class-cartflows-el-next-step-button.php:202
+msgid "After Title & Sub Title"
+msgstr ""
+
+#: modules/elementor/widgets/class-cartflows-el-next-step-button.php:213
+msgid "Icon Vertical Alignment"
+msgstr ""
+
+#: modules/elementor/widgets/class-cartflows-el-next-step-button.php:219
+msgid "Top"
+msgstr ""
+
+#: modules/elementor/widgets/class-cartflows-el-next-step-button.php:223
+msgid "Middle"
+msgstr ""
+
+#: modules/elementor/widgets/class-cartflows-el-next-step-button.php:240
+msgid "Icon Spacing"
+msgstr ""
+
+#: modules/elementor/widgets/class-cartflows-el-next-step-button.php:260
+msgid "Icon Size"
+msgstr ""
+
+#: modules/elementor/widgets/class-cartflows-el-next-step-button.php:299
+#: modules/elementor/widgets/class-cartflows-el-order-details-form.php:298
+msgid "Alignment"
+msgstr ""
+
+#: modules/elementor/widgets/class-cartflows-el-next-step-button.php:303
+#: modules/elementor/widgets/class-cartflows-el-next-step-button.php:476
+#: modules/elementor/widgets/class-cartflows-el-order-details-form.php:302
+#: modules/optin/classes/class-cartflows-optin-meta.php:623
+msgid "Left"
+msgstr ""
+
+#: modules/elementor/widgets/class-cartflows-el-next-step-button.php:307
+#: modules/elementor/widgets/class-cartflows-el-next-step-button.php:480
+#: modules/elementor/widgets/class-cartflows-el-order-details-form.php:306
+#: modules/optin/classes/class-cartflows-optin-meta.php:624
+msgid "Center"
+msgstr ""
+
+#: modules/elementor/widgets/class-cartflows-el-next-step-button.php:311
+#: modules/elementor/widgets/class-cartflows-el-next-step-button.php:484
+#: modules/elementor/widgets/class-cartflows-el-order-details-form.php:310
+#: modules/optin/classes/class-cartflows-optin-meta.php:625
+msgid "Right"
+msgstr ""
+
+#: modules/elementor/widgets/class-cartflows-el-next-step-button.php:315
+msgid "Justify"
+msgstr ""
+
+#: modules/elementor/widgets/class-cartflows-el-next-step-button.php:327
+msgid "Button Size"
+msgstr ""
+
+#: modules/elementor/widgets/class-cartflows-el-next-step-button.php:337
+msgid "Padding"
+msgstr ""
+
+#: modules/elementor/widgets/class-cartflows-el-next-step-button.php:418
+msgid "Hover Text Color"
+msgstr ""
+
+#: modules/elementor/widgets/class-cartflows-el-next-step-button.php:431
+msgid "Hover Background Color"
+msgstr ""
+
+#: modules/elementor/widgets/class-cartflows-el-next-step-button.php:464
+#: modules/elementor/widgets/class-cartflows-el-order-details-form.php:540
+#: modules/elementor/widgets/class-cartflows-el-order-details-form.php:631
+#: modules/elementor/widgets/class-cartflows-el-order-details-form.php:720
+msgid "Content"
+msgstr ""
+
+#: modules/elementor/widgets/class-cartflows-el-next-step-button.php:472
+msgid "Text Alignment"
+msgstr ""
+
+#: modules/elementor/widgets/class-cartflows-el-next-step-button.php:525
+msgid "Title and Sub Title Spacing"
+msgstr ""
+
+#: modules/elementor/widgets/class-cartflows-el-optin-form.php:66
+msgid "Optin Form"
+msgstr ""
+
+#: modules/elementor/widgets/class-cartflows-el-optin-form.php:349
+#: modules/optin/classes/class-cartflows-optin-meta.php:544
+msgid "Submit Button"
+msgstr ""
+
+#: modules/elementor/widgets/class-cartflows-el-order-details-form.php:69
+msgid "Order Details Form"
+msgstr ""
+
+#: modules/elementor/widgets/class-cartflows-el-order-details-form.php:163
+msgid "Thank You Text"
+msgstr ""
+
+#: modules/elementor/widgets/class-cartflows-el-order-details-form.php:165
+#: modules/thankyou/classes/class-cartflows-thankyou-meta.php:176
+#: woocommerce/template/checkout/thankyou.php:41
+#: woocommerce/template/checkout/thankyou.php:86
+msgid "Thank you. Your order has been received."
+msgstr ""
+
+#: modules/elementor/widgets/class-cartflows-el-order-details-form.php:173
+#: modules/elementor/widgets/class-cartflows-el-order-details-form.php:448
+msgid "Order Overview"
+msgstr ""
+
+#: modules/elementor/widgets/class-cartflows-el-order-details-form.php:175
+#: modules/elementor/widgets/class-cartflows-el-order-details-form.php:187
+#: modules/elementor/widgets/class-cartflows-el-order-details-form.php:199
+#: modules/elementor/widgets/class-cartflows-el-order-details-form.php:211
+msgid "Show"
+msgstr ""
+
+#: modules/elementor/widgets/class-cartflows-el-order-details-form.php:176
+#: modules/elementor/widgets/class-cartflows-el-order-details-form.php:188
+#: modules/elementor/widgets/class-cartflows-el-order-details-form.php:200
+#: modules/elementor/widgets/class-cartflows-el-order-details-form.php:212
+msgid "Hide"
+msgstr ""
+
+#: modules/elementor/widgets/class-cartflows-el-order-details-form.php:185
+#: modules/elementor/widgets/class-cartflows-el-order-details-form.php:591
+#: modules/thankyou/classes/class-cartflows-thankyou-meta.php:284
+msgid "Order Details"
+msgstr ""
+
+#: modules/elementor/widgets/class-cartflows-el-order-details-form.php:197
+msgid "Billing Address"
+msgstr ""
+
+#: modules/elementor/widgets/class-cartflows-el-order-details-form.php:209
+msgid "Shipping Address"
+msgstr ""
+
+#: modules/elementor/widgets/class-cartflows-el-order-details-form.php:233
+msgid "Spacing"
+msgstr ""
+
+#: modules/elementor/widgets/class-cartflows-el-order-details-form.php:241
+msgid "Heading Bottom Spacing"
+msgstr ""
+
+#: modules/elementor/widgets/class-cartflows-el-order-details-form.php:257
+msgid "Spacing Between Sections"
+msgstr ""
+
+#: modules/elementor/widgets/class-cartflows-el-order-details-form.php:364
+msgid "Sections Heading"
+msgstr ""
+
+#: modules/elementor/widgets/class-cartflows-el-order-details-form.php:393
+msgid "Sections Content"
+msgstr ""
+
+#: modules/elementor/widgets/class-cartflows-el-order-details-form.php:501
+msgid "Downloads"
+msgstr ""
+
+#: modules/elementor/widgets/class-cartflows-el-order-details-form.php:683
+msgid "Customer Details"
 msgstr ""
 
 #: modules/flow/classes/class-cartflows-flow-meta.php:265
@@ -1706,190 +2194,171 @@ msgstr ""
 msgid "Landing Page Settings"
 msgstr ""
 
-#: modules/landing/classes/class-cartflows-landing-meta.php:169
+#: modules/landing/classes/class-cartflows-landing-meta.php:171
 msgid "Next Step Link"
 msgstr ""
 
-#: modules/optin/classes/class-cartflows-optin-markup.php:185
+#: modules/optin/classes/class-cartflows-optin-markup.php:198
 msgid "Please place shortcode on Optin step-type only."
 msgstr ""
 
-#: modules/optin/classes/class-cartflows-optin-markup.php:245
+#: modules/optin/classes/class-cartflows-optin-markup.php:258
 msgid ""
 "No product is selected. Please select a Simple, Virtual and Free product "
 "from the meta settings."
 msgstr ""
 
-#: modules/optin/classes/class-cartflows-optin-markup.php:262
+#: modules/optin/classes/class-cartflows-optin-markup.php:275
 msgid "Please update the selected product's price to zero (0)."
 msgstr ""
 
-#: modules/optin/classes/class-cartflows-optin-markup.php:271
-#: modules/optin/classes/class-cartflows-optin-markup.php:275
+#: modules/optin/classes/class-cartflows-optin-markup.php:284
+#: modules/optin/classes/class-cartflows-optin-markup.php:288
 msgid "Please select a Simple, Virtual and Free product."
 msgstr ""
 
-#: modules/optin/classes/class-cartflows-optin-meta.php:65
+#: modules/optin/classes/class-cartflows-optin-meta.php:94
 msgid "Optin Settings"
 msgstr ""
 
-#: modules/optin/classes/class-cartflows-optin-meta.php:138
-#: modules/thankyou/classes/class-cartflows-thankyou-meta.php:136
-msgid "Design"
+#: modules/optin/classes/class-cartflows-optin-meta.php:103
+msgid "Optin Design"
 msgstr ""
 
-#: modules/optin/classes/class-cartflows-optin-meta.php:144
+#: modules/optin/classes/class-cartflows-optin-meta.php:145
 msgid "Form Fields"
 msgstr ""
 
-#: modules/optin/classes/class-cartflows-optin-meta.php:213
+#: modules/optin/classes/class-cartflows-optin-meta.php:226
+#: modules/thankyou/classes/class-cartflows-thankyou-meta.php:250
+msgid "Design"
+msgstr ""
+
+#: modules/optin/classes/class-cartflows-optin-meta.php:277
 msgid "Add this shortcode to your optin page"
 msgstr ""
 
-#: modules/optin/classes/class-cartflows-optin-meta.php:238
+#: modules/optin/classes/class-cartflows-optin-meta.php:302
 msgid "Select Free Product"
 msgstr ""
 
-#: modules/optin/classes/class-cartflows-optin-meta.php:239
+#: modules/optin/classes/class-cartflows-optin-meta.php:303
 msgid "Select Free and Virtual product only."
 msgstr ""
 
-#: modules/optin/classes/class-cartflows-optin-meta.php:293
+#: modules/optin/classes/class-cartflows-optin-meta.php:357
 msgid "Pass Fields as URL Parameters"
 msgstr ""
 
-#: modules/optin/classes/class-cartflows-optin-meta.php:296
+#: modules/optin/classes/class-cartflows-optin-meta.php:360
 msgid "Enable"
 msgstr ""
 
-#: modules/optin/classes/class-cartflows-optin-meta.php:297
+#: modules/optin/classes/class-cartflows-optin-meta.php:361
 msgid ""
 "You can pass specific fields from the form to next step as URL query "
 "parameters."
 msgstr ""
 
-#: modules/optin/classes/class-cartflows-optin-meta.php:308
+#: modules/optin/classes/class-cartflows-optin-meta.php:372
 msgid "Enter form field"
 msgstr ""
 
-#: modules/optin/classes/class-cartflows-optin-meta.php:311
-#: modules/optin/classes/class-cartflows-optin-meta.php:321
+#: modules/optin/classes/class-cartflows-optin-meta.php:375
+#: modules/optin/classes/class-cartflows-optin-meta.php:385
 msgid "Enter comma seprated field name. E.g. first_name, last_name"
 msgstr ""
 
-#: modules/optin/classes/class-cartflows-optin-meta.php:313
+#: modules/optin/classes/class-cartflows-optin-meta.php:377
 msgid "Fields to pass, separated by commas"
 msgstr ""
 
-#: modules/optin/classes/class-cartflows-optin-meta.php:323
+#: modules/optin/classes/class-cartflows-optin-meta.php:387
 #. translators: %s: link
 msgid ""
 "You can pass field value as a URL parameter to the next step. %1$sClick "
 "here%2$s for more information."
 msgstr ""
 
-#: modules/optin/classes/class-cartflows-optin-meta.php:480
-msgid "Submit Button"
-msgstr ""
-
-#: modules/optin/classes/class-cartflows-optin-meta.php:486
+#: modules/optin/classes/class-cartflows-optin-meta.php:550
 msgid "Button Text"
 msgstr ""
 
-#: modules/optin/classes/class-cartflows-optin-meta.php:497
-#: modules/thankyou/classes/class-cartflows-thankyou-meta.php:217
+#: modules/optin/classes/class-cartflows-optin-meta.php:561
+#: modules/thankyou/classes/class-cartflows-thankyou-meta.php:319
 msgid "Font Size"
 msgstr ""
 
-#: modules/optin/classes/class-cartflows-optin-meta.php:555
+#: modules/optin/classes/class-cartflows-optin-meta.php:619
 msgid "Position"
 msgstr ""
 
-#: modules/optin/classes/class-cartflows-optin-meta.php:559
-msgid "Left"
+#: modules/thankyou/classes/class-cartflows-thankyou-markup.php:127
+msgid "No completed or processing order found to show the order details form demo."
 msgstr ""
 
-#: modules/optin/classes/class-cartflows-optin-meta.php:560
-msgid "Center"
+#: modules/thankyou/classes/class-cartflows-thankyou-markup.php:131
+msgid "Order not found. You cannot access this page directly."
 msgstr ""
 
-#: modules/optin/classes/class-cartflows-optin-meta.php:561
-msgid "Right"
+#: modules/thankyou/classes/class-cartflows-thankyou-meta.php:95
+msgid "Thank You Settings"
 msgstr ""
 
-#: modules/thankyou/classes/class-cartflows-thankyou-meta.php:65
-msgid "Thank You Page Settings"
+#: modules/thankyou/classes/class-cartflows-thankyou-meta.php:104
+msgid "Thank You Design"
 msgstr ""
 
-#: modules/thankyou/classes/class-cartflows-thankyou-meta.php:142
-msgid "Edit Fields"
-msgstr ""
-
-#: modules/thankyou/classes/class-cartflows-thankyou-meta.php:182
-msgid "Order Details"
-msgstr ""
-
-#: modules/thankyou/classes/class-cartflows-thankyou-meta.php:194
-msgid "Text"
-msgstr ""
-
-#: modules/thankyou/classes/class-cartflows-thankyou-meta.php:200
-#: modules/thankyou/classes/class-cartflows-thankyou-meta.php:231
-msgid "Color"
-msgstr ""
-
-#: modules/thankyou/classes/class-cartflows-thankyou-meta.php:257
-msgid "Advanced Options"
-msgstr ""
-
-#: modules/thankyou/classes/class-cartflows-thankyou-meta.php:267
-msgid "Container Width (In px)"
-msgstr ""
-
-#: modules/thankyou/classes/class-cartflows-thankyou-meta.php:275
-msgid "Section Background Color"
-msgstr ""
-
-#: modules/thankyou/classes/class-cartflows-thankyou-meta.php:289
-msgid "Enable Order Overview "
-msgstr ""
-
-#: modules/thankyou/classes/class-cartflows-thankyou-meta.php:297
-msgid "Enable Order Details "
-msgstr ""
-
-#: modules/thankyou/classes/class-cartflows-thankyou-meta.php:305
-msgid "Enable Billing Details "
-msgstr ""
-
-#: modules/thankyou/classes/class-cartflows-thankyou-meta.php:313
-msgid "Enable Shipping Details "
-msgstr ""
-
-#: modules/thankyou/classes/class-cartflows-thankyou-meta.php:329
+#: modules/thankyou/classes/class-cartflows-thankyou-meta.php:172
 msgid "Thank You Page Text"
 msgstr ""
 
-#: modules/thankyou/classes/class-cartflows-thankyou-meta.php:333
-#: woocommerce/template/checkout/thankyou.php:41
-#: woocommerce/template/checkout/thankyou.php:86
-msgid "Thank you. Your order has been received."
-msgstr ""
-
-#: modules/thankyou/classes/class-cartflows-thankyou-meta.php:335
+#: modules/thankyou/classes/class-cartflows-thankyou-meta.php:178
 msgid "It will change the default text on thank you page."
 msgstr ""
 
-#: modules/thankyou/classes/class-cartflows-thankyou-meta.php:343
+#: modules/thankyou/classes/class-cartflows-thankyou-meta.php:186
 msgid "Redirect After Purchase"
 msgstr ""
 
-#: modules/thankyou/classes/class-cartflows-thankyou-meta.php:352
+#: modules/thankyou/classes/class-cartflows-thankyou-meta.php:195
 msgid "Redirect Link"
 msgstr ""
 
-#: modules/thankyou/classes/class-cartflows-thankyou-meta.php:356
+#: modules/thankyou/classes/class-cartflows-thankyou-meta.php:199
 msgid "https://"
+msgstr ""
+
+#: modules/thankyou/classes/class-cartflows-thankyou-meta.php:256
+msgid "Edit Fields"
+msgstr ""
+
+#: modules/thankyou/classes/class-cartflows-thankyou-meta.php:296
+msgid "Text"
+msgstr ""
+
+#: modules/thankyou/classes/class-cartflows-thankyou-meta.php:359
+msgid "Advanced Options"
+msgstr ""
+
+#: modules/thankyou/classes/class-cartflows-thankyou-meta.php:369
+msgid "Container Width (In px)"
+msgstr ""
+
+#: modules/thankyou/classes/class-cartflows-thankyou-meta.php:391
+msgid "Enable Order Overview "
+msgstr ""
+
+#: modules/thankyou/classes/class-cartflows-thankyou-meta.php:399
+msgid "Enable Order Details "
+msgstr ""
+
+#: modules/thankyou/classes/class-cartflows-thankyou-meta.php:407
+msgid "Enable Billing Details "
+msgstr ""
+
+#: modules/thankyou/classes/class-cartflows-thankyou-meta.php:415
+msgid "Enable Shipping Details "
 msgstr ""
 
 #: modules/widgets/class-cartflows-next-step.php:24
@@ -1962,10 +2431,6 @@ msgstr ""
 
 #: woocommerce/template/checkout/form-checkout.php:26
 msgid "You must be logged in to checkout."
-msgstr ""
-
-#: woocommerce/template/checkout/form-checkout.php:52
-msgid "Your order"
 msgstr ""
 
 #: woocommerce/template/checkout/form-coupon.php:26

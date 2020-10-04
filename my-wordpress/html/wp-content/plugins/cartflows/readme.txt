@@ -4,7 +4,7 @@ Donate link: https://www.paypal.me/BrainstormForce
 Tags: woocommerce, funnel builder, sales funnels, elementor, beaver builder
 Requires at least: 4.4
 Tested up to: 5.5.1
-Stable tag: 1.5.17
+Stable tag: 1.5.18
 Requires PHP: 5.6
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -126,6 +126,12 @@ Glad you asked! Most normal users have less than 3 funnels on a single website, 
 5. Easily edit anything with your page builder.
 
 == Changelog ==
+
+= Version 1.5.18 - Tuesday, 29th September 2020 =
+* New: Introduced Elementor widgets.
+* Improvement: Added split test compatibility for a global checkout.
+* Improvement: Added compatibility for a future release of CartFlows Pro.
+* Fix: Place order button text option was not working for the optin page when the optin page was set as homepage.
 
 = Version 1.5.17 - Tuesday, 8th September 2020 =
 * New: Added Braintree subscription product compatibility. Now, you can select it on the checkout page meta setting.

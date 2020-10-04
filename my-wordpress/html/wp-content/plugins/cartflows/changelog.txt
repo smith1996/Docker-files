@@ -1,3 +1,9 @@
+Version 1.5.18 - Tuesday, 29th September 2020
+- New: Introduced Elementor widgets.
+- Improvement: Added split test compatibility for a global checkout.
+- Improvement: Added compatibility for a future release of CartFlows Pro.
+- Fix: Place order button text option was not working for the optin page when the optin page was set as homepage.
+
 Version 1.5.17 - Tuesday, 8th September 2020
 - New: Added Braintree subscription product compatibility. Now, you can select it on the checkout page meta setting.
 - Improvement: Added compatibility for a future release of CartFlows Pro.

@@ -226,10 +226,6 @@ class Cartflows_Default_Meta {
 					'default'  => '',
 					'sanitize' => 'FILTER_DEFAULT',
 				),
-				'wcf-active-tab'                       => array(
-					'default'  => '',
-					'sanitize' => 'FILTER_DEFAULT',
-				),
 				'wcf-header-logo-image'                => array(
 					'default'  => '',
 					'sanitize' => 'FILTER_DEFAULT',
@@ -491,7 +487,7 @@ class Cartflows_Default_Meta {
 			}
 		}
 
-		return $value;
+		return apply_filters( "cartflows_checkout_meta_{$key}", $value );
 	}
 
 	/**
@@ -503,9 +499,7 @@ class Cartflows_Default_Meta {
 	 */
 	public function get_save_meta( $post_id, $key ) {
 
-		$value = get_post_meta( $post_id, $key, true );
-
-		return $value;
+		return get_post_meta( $post_id, $key, true );
 	}
 
 	/**
@@ -519,10 +513,6 @@ class Cartflows_Default_Meta {
 		if ( null === self::$thankyou_fields ) {
 			self::$thankyou_fields = array(
 				'wcf-field-google-font-url'     => array(
-					'default'  => '',
-					'sanitize' => 'FILTER_DEFAULT',
-				),
-				'wcf-active-tab'                => array(
 					'default'  => '',
 					'sanitize' => 'FILTER_DEFAULT',
 				),
@@ -624,7 +614,7 @@ class Cartflows_Default_Meta {
 			}
 		}
 
-		return $value;
+		return apply_filters( "cartflows_thankyou_meta_{$key}", $value );
 	}
 
 		/**
@@ -813,12 +803,6 @@ class Cartflows_Default_Meta {
 					'default'  => '',
 					'sanitize' => 'FILTER_DEFAULT',
 				),
-
-				/* Hidden */
-				'wcf-active-tab'                 => array(
-					'default'  => '',
-					'sanitize' => 'FILTER_DEFAULT',
-				),
 			);
 		}
 		return apply_filters( 'cartflows_optin_meta_options', self::$optin_fields, $post_id );
@@ -861,7 +845,7 @@ class Cartflows_Default_Meta {
 			}
 		}
 
-		return $value;
+		return apply_filters( "cartflows_optin_meta_{$key}", $value );
 	}
 }
 

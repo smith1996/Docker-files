@@ -39,15 +39,15 @@ $note             = get_post_meta( $inner_step_id, 'wcf-step-note', true );
 
 		<?php
 
-		if ( ( ! $has_product_assigned ) && ( $inner_step_id != $is_global_checkout ) ) {
+		if ( ( ! $has_product_assigned ) && ( $control_id !== $is_global_checkout ) ) {
 			?>
 			<span class="wcf-no-product-badge"><?php esc_html_e( 'No Product Assigned', 'cartflows' ); ?></span>
 			<?php
-		} elseif ( ( $has_product_assigned ) && ( $inner_step_id === $is_global_checkout ) ) {
+		} elseif ( ( $has_product_assigned ) && ( $control_id === $is_global_checkout ) ) {
 			?>
 			<span class="wcf-global-checkout-badge wcf-error-badge"><?php esc_html_e( 'Global Checkout - Remove selected checkout product', 'cartflows' ); ?></span>
 			<?php
-		} elseif ( ( ! $has_product_assigned ) && $inner_step_id === $is_global_checkout ) {
+		} elseif ( ( ! $has_product_assigned ) && $control_id === $is_global_checkout ) {
 			?>
 			<span class="wcf-global-checkout-badge"><?php esc_html_e( 'Global Checkout', 'cartflows' ); ?></span>
 			<?php

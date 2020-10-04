@@ -10,7 +10,6 @@
  */
 class Cartflows_Checkout_Meta extends Cartflows_Meta {
 
-
 	/**
 	 * Instance
 	 *
@@ -24,6 +23,13 @@ class Cartflows_Checkout_Meta extends Cartflows_Meta {
 	 * @var $meta_option
 	 */
 	private static $meta_option = null;
+
+	/**
+	 * Meta Options map key->value map,
+	 *
+	 * @var $meta_option_data
+	 */
+	private static $meta_option_data = array();
 
 	/**
 	 * Initiator
@@ -50,21 +56,53 @@ class Cartflows_Checkout_Meta extends Cartflows_Meta {
 	 */
 	public function init_metabox() {
 
-		add_action( 'add_meta_boxes', array( $this, 'setup_meta_box' ) );
+		add_action( 'add_meta_boxes', array( $this, 'setup_meta_box' ), 10, 2 );
 		add_action( 'save_post', array( $this, 'save_meta_box' ) );
 	}
 
 	/**
 	 *  Setup Metabox
+	 *
+	 * @param string $post_type post type.
+	 * @param object $post post object.
 	 */
-	public function setup_meta_box() {
+	public function setup_meta_box( $post_type, $post ) {
 
 		if ( _is_wcf_checkout_type() ) {
+
+			$stored_meta   = get_post_meta( $post->ID );
+			$checkout_meta = self::get_meta_option( $post->ID );
+
+			// Set stored and override defaults.
+			foreach ( $stored_meta as $key => $value ) {
+				if ( array_key_exists( $key, $checkout_meta ) ) {
+					self::$meta_option[ $key ]['default'] = ( isset( $stored_meta[ $key ][0] ) ) ? maybe_unserialize( $stored_meta[ $key ][0] ) : '';
+				} else {
+					self::$meta_option[ $key ]['default'] = ( isset( $stored_meta[ $key ][0] ) ) ? $stored_meta[ $key ][0] : '';
+				}
+			}
+
+			// Get defaults.
+			$new_meta = self::get_meta_option( $post->ID );
+
+			foreach ( $new_meta as $key => $value ) {
+				self::$meta_option_data[ $key ] = $new_meta[ $key ]['default'];
+			}
+
 			add_meta_box(
 				'wcf-checkout-settings',                // Id.
-				__( 'Checkout Layout', 'cartflows' ), // Title.
-				array( $this, 'markup_meta_box' ),      // Callback.
-				wcf()->utils->get_step_post_type(),                 // Post_type.
+				__( 'Checkout Settings', 'cartflows' ), // Title.
+				array( $this, 'settings_markup_metabox' ),      // Callback.
+				$post_type,                 // Post_type.
+				'normal',                               // Context.
+				'high'                                  // Priority.
+			);
+
+			add_meta_box(
+				'wcf-checkout-design-settings',                // Id.
+				__( 'Checkout Layout & Design', 'cartflows' ), // Title.
+				array( $this, 'design_markup_metabox' ),      // Callback.
+				$post_type,                 // Post_type.
 				'normal',                               // Context.
 				'high'                                  // Priority.
 			);
@@ -77,57 +115,12 @@ class Cartflows_Checkout_Meta extends Cartflows_Meta {
 	 * @param  object $post Post object.
 	 * @return void
 	 */
-	public function markup_meta_box( $post ) {
+	public function settings_markup_metabox( $post ) {
 
 		wp_nonce_field( 'save-nonce-checkout-step-meta', 'nonce-checkout-step-meta' );
 
-		$stored = get_post_meta( $post->ID );
-
-		$checkout_meta = self::get_meta_option( $post->ID );
-
-		// Set stored and override defaults.
-		foreach ( $stored as $key => $value ) {
-			if ( array_key_exists( $key, $checkout_meta ) ) {
-				self::$meta_option[ $key ]['default'] = ( isset( $stored[ $key ][0] ) ) ? maybe_unserialize( $stored[ $key ][0] ) : '';
-			} else {
-				self::$meta_option[ $key ]['default'] = ( isset( $stored[ $key ][0] ) ) ? $stored[ $key ][0] : '';
-			}
-		}
-
-		// Get defaults.
-		$meta          = self::get_meta_option( $post->ID );
-		$checkout_data = array();
-
-		foreach ( $meta as $key => $value ) {
-			$checkout_data[ $key ] = $meta[ $key ]['default'];
-		}
-
-		/**
-		$billing_fields = Cartflows_Helper::get_checkout_fields( 'billing', $post->ID );
-
-		// For loop
-		foreach ( $billing_fields as $key => $value ) {
-
-			$checkout_data[ 'wcf-' . $key ] = $meta[ 'wcf-' . $key ]['default'];
-		}
-
-		$shipping_fields = Cartflows_Helper::get_checkout_fields( 'shipping', $post->ID );
-
-		foreach ( $shipping_fields as $key => $value ) {
-
-			$checkout_data[ 'wcf-' . $key ] = $meta[ 'wcf-' . $key ]['default'];
-		}
-
-		$additional_fields = Cartflows_Helper::get_checkout_fields( 'additional', $post->ID );
-
-		foreach ( $additional_fields as $key => $value ) {
-
-			$checkout_data[ 'wcf-' . $key ] = $meta[ 'wcf-' . $key ]['default'];
-		}
-		*/
-
 		do_action( 'wcf_checkout_settings_markup_before' );
-		$this->tabs_markup( $checkout_data, $post->ID );
+		$this->settings_tabs_markup( self::$meta_option_data, $post->ID );
 		do_action( 'wcf_checkout_settings_markup_after' );
 	}
 
@@ -137,21 +130,11 @@ class Cartflows_Checkout_Meta extends Cartflows_Meta {
 	 * @param array $options options.
 	 * @param int   $post_id post ID.
 	 */
-	public function tabs_markup( $options, $post_id ) {
+	public function settings_tabs_markup( $options, $post_id ) {
 
-		$active_tab = get_post_meta( $post_id, 'wcf-active-tab', true );
-
-		if ( empty( $active_tab ) ) {
-			$active_tab = 'wcf-checkout-shortcodes';
-		}
+		$active_tab = 'wcf-checkout-general';
 
 		$tab_array = array(
-			array(
-				'title' => __( 'Shortcodes', 'cartflows' ),
-				'id'    => 'wcf-checkout-shortcodes',
-				'class' => 'wcf-checkout-shortcodes' === $active_tab ? 'wcf-tab wp-ui-text-highlight active' : 'wcf-tab',
-				'icon'  => 'dashicons-editor-code',
-			),
 			array(
 				'title' => __( 'Select Product', 'cartflows' ),
 				'id'    => 'wcf-checkout-general',
@@ -175,12 +158,6 @@ class Cartflows_Checkout_Meta extends Cartflows_Meta {
 				'id'    => 'wcf-pre-checkout-offer',
 				'class' => 'wcf-pre-checkout-offer' === $active_tab ? 'wcf-tab wp-ui-text-highlight active' : 'wcf-tab',
 				'icon'  => 'dashicons-arrow-up-alt',
-			),
-			array(
-				'title' => __( 'Checkout Design', 'cartflows' ),
-				'id'    => 'wcf-checkout-style',
-				'class' => 'wcf-checkout-style' === $active_tab ? 'wcf-tab wp-ui-text-highlight active' : 'wcf-tab',
-				'icon'  => 'dashicons-admin-customizer',
 			),
 			array(
 				'title' => __( 'Checkout Fields', 'cartflows' ),
@@ -228,17 +205,13 @@ class Cartflows_Checkout_Meta extends Cartflows_Meta {
 								<span class="wcf-tab-title"><?php echo esc_html( $tab['title'] ); ?></span>
 							</div>
 						<?php } ?>
-
-						<input type="hidden" id="wcf-active-tab" name="wcf-active-tab" value="<?php echo esc_attr( $active_tab ); ?>" />
 					</div>
 				</div>
 				<div class="wcf-column-right">
-					<?php $this->tab_shortcodes( $options, $post_id ); ?>
 					<?php $this->tab_general( $options, $post_id ); ?>
 					<?php $this->tab_product_options( $options, $post_id ); ?>
-					<?php $this->tab_style( $options, $post_id ); ?>
-					<?php $this->tab_pre_checkout_offer( $options, $post_id ); ?>
 					<?php $this->tab_product_bump( $options, $post_id ); ?>
+					<?php $this->tab_pre_checkout_offer( $options, $post_id ); ?>
 					<?php $this->tab_custom_fields( $options, $post_id ); ?>
 					<?php $this->tab_custom_settings( $options, $post_id ); ?>
 					<?php $this->tab_header_content( $options, $post_id ); ?>
@@ -250,6 +223,34 @@ class Cartflows_Checkout_Meta extends Cartflows_Meta {
 		</div>
 
 		<?php
+	}
+
+	/* Design metabox settings */
+
+	/**
+	 * Metabox Markup
+	 *
+	 * @param  object $post Post object.
+	 * @return void
+	 */
+	public function design_markup_metabox( $post ) {
+
+		wp_nonce_field( 'save-nonce-checkout-step-meta', 'nonce-checkout-step-meta' );
+
+		do_action( 'wcf_checkout_design_settings_markup_before' );
+		$this->design_tabs_markup( self::$meta_option_data, $post->ID );
+		do_action( 'wcf_checkout_design_settings_markup_after' );
+	}
+
+	/**
+	 * Design settings Tabs
+	 *
+	 * @param array $options options.
+	 * @param int   $post_id post ID.
+	 */
+	public function design_tabs_markup( $options, $post_id ) {
+
+		include CARTFLOWS_CHECKOUT_DIR . 'includes/meta-views/design-checkout-metabox-markup.php';
 	}
 
 	/**
@@ -295,7 +296,7 @@ class Cartflows_Checkout_Meta extends Cartflows_Meta {
 	 * @param array $options options.
 	 * @param int   $post_id post ID.
 	 */
-	public function tab_shortcodes( $options, $post_id ) {
+	public function design_tab_shortcodes( $options, $post_id ) {
 		?>
 		<div class="wcf-checkout-shortcodes wcf-tab-content widefat">
 
@@ -313,7 +314,6 @@ class Cartflows_Checkout_Meta extends Cartflows_Meta {
 		</div>
 		<?php
 	}
-
 
 	/**
 	 * General tab
@@ -531,348 +531,8 @@ class Cartflows_Checkout_Meta extends Cartflows_Meta {
 	 * @param array $options options.
 	 * @param int   $post_id post ID.
 	 */
-	public function tab_style( $options, $post_id ) {
-		?>
-
-		<div class="wcf-checkout-style wcf-tab-content widefat">
-			<div class="wcf-cs-fields">
-				<div class="wcf-cs-checkbox-field">
-					<?php
-
-						$layout_pro_option = array();
-
-					if ( ! _is_cartflows_pro() ) {
-						$layout_pro_option = array(
-							'one-column' => __( 'One Column (Available in CartFlows Pro) ', 'cartflows' ),
-							'two-step'   => __( 'Two Step (Available in CartFlows Pro) ', 'cartflows' ),
-						);
-					}
-
-						echo wcf()->meta->get_select_field(
-							array(
-								'label'       => __( 'Checkout Skin', 'cartflows' ),
-								'name'        => 'wcf-checkout-layout',
-								'value'       => $options['wcf-checkout-layout'],
-								'options'     => array(
-									'one-column' => esc_html__( 'One Column', 'cartflows' ),
-									'two-column' => esc_html__( 'Two Column', 'cartflows' ),
-									'two-step'   => esc_html__( 'Two Step', 'cartflows' ),
-								),
-								'pro-options' => $layout_pro_option,
-
-							)
-						);
-
-						echo wcf()->meta->get_color_picker_field(
-							array(
-								'label' => __( 'Primary Color', 'cartflows' ),
-								'name'  => 'wcf-primary-color',
-								'value' => $options['wcf-primary-color'],
-							)
-						);
-
-						echo wcf()->meta->get_font_family_field(
-							array(
-								'for'   => 'wcf-base',
-								'label' => esc_html__( 'Font Family', 'cartflows' ),
-								'name'  => 'wcf-base-font-family',
-								'value' => $options['wcf-base-font-family'],
-							)
-						);
-
-						echo wcf()->meta->get_checkbox_field(
-							array(
-								'label' => __( 'Advance Options', 'cartflows' ),
-								'name'  => 'wcf-advance-options-fields',
-								'value' => $options['wcf-advance-options-fields'],
-								'after' => 'Enable',
-							)
-						);
-					?>
-				</div>                  
-				<div class="wcf-cs-fields-options">
-					<?php
-						echo wcf()->meta->get_section(
-							array(
-								'label' => __( 'Heading', 'cartflows' ),
-							)
-						);
-
-						echo wcf()->meta->get_color_picker_field(
-							array(
-								'label' => __( 'Heading Color', 'cartflows' ),
-								'name'  => 'wcf-heading-color',
-								'value' => $options['wcf-heading-color'],
-							)
-						);
-
-						echo wcf()->meta->get_font_family_field(
-							array(
-								'for'   => 'wcf-heading',
-								'label' => esc_html__( 'Font Family', 'cartflows' ),
-								'name'  => 'wcf-heading-font-family',
-								'value' => $options['wcf-heading-font-family'],
-							)
-						);
-
-						echo wcf()->meta->get_font_weight_field(
-							array(
-								'for'   => 'wcf-heading',
-								'label' => esc_html__( 'Font Weight', 'cartflows' ),
-								'name'  => 'wcf-heading-font-weight',
-								'value' => $options['wcf-heading-font-weight'],
-							)
-						);
-
-						echo wcf()->meta->get_section(
-							array(
-								'label' => __( 'Input Fields', 'cartflows' ),
-							)
-						);
-
-						$fields_skin_pro_option = array();
-
-					if ( ! _is_cartflows_pro() ) {
-						$fields_skin_pro_option = array(
-							'style-one' => __( 'Floating Labels (Available in CartFlows Pro)', 'cartflows' ),
-						);
-					}
-
-						echo wcf()->meta->get_select_field(
-							array(
-								'label'       => __( 'Style', 'cartflows' ),
-								'name'        => 'wcf-fields-skins',
-								'value'       => $options['wcf-fields-skins'],
-								'options'     => array(
-									'default'   => esc_html__( 'Default', 'cartflows' ),
-									'style-one' => esc_html__( 'Floating Labels', 'cartflows' ),
-								),
-								'pro-options' => $fields_skin_pro_option,
-
-							)
-						);
-
-						echo wcf()->meta->get_font_family_field(
-							array(
-								'for'   => 'wcf-input',
-								'label' => esc_html__( 'Font Family', 'cartflows' ),
-								'name'  => 'wcf-input-font-family',
-								'value' => $options['wcf-input-font-family'],
-							)
-						);
-
-						echo wcf()->meta->get_font_weight_field(
-							array(
-								'for'   => 'wcf-input',
-								'label' => esc_html__( 'Font Weight', 'cartflows' ),
-								'name'  => 'wcf-input-font-weight',
-								'value' => $options['wcf-input-font-weight'],
-							)
-						);
-
-						echo wcf()->meta->get_select_field(
-							array(
-								'label'   => __( 'Size', 'cartflows' ),
-								'name'    => 'wcf-input-field-size',
-								'value'   => $options['wcf-input-field-size'],
-								'options' => array(
-									'33px'   => esc_html__( 'Extra Small', 'cartflows' ),
-									'38px'   => esc_html__( 'Small', 'cartflows' ),
-									'44px'   => esc_html__( 'Medium', 'cartflows' ),
-									'58px'   => esc_html__( 'Large', 'cartflows' ),
-									'68px'   => esc_html__( 'Extra Large', 'cartflows' ),
-									'custom' => esc_html__( 'Custom', 'cartflows' ),
-								),
-							)
-						);
-
-						echo wcf()->meta->get_number_field(
-							array(
-								'label' => __( 'Top Bottom Spacing', 'cartflows' ),
-								'name'  => 'wcf-field-tb-padding',
-								'value' => $options['wcf-field-tb-padding'],
-							)
-						);
-
-						echo wcf()->meta->get_number_field(
-							array(
-								'label' => __( 'Left Right Spacing', 'cartflows' ),
-								'name'  => 'wcf-field-lr-padding',
-								'value' => $options['wcf-field-lr-padding'],
-							)
-						);
-
-						echo wcf()->meta->get_color_picker_field(
-							array(
-								'label' => __( 'Text / Placeholder Color', 'cartflows' ),
-								'name'  => 'wcf-field-color',
-								'value' => $options['wcf-field-color'],
-							)
-						);
-
-						echo wcf()->meta->get_color_picker_field(
-							array(
-								'label' => __( 'Background Color', 'cartflows' ),
-								'name'  => 'wcf-field-bg-color',
-								'value' => $options['wcf-field-bg-color'],
-							)
-						);
-
-						echo wcf()->meta->get_color_picker_field(
-							array(
-								'label' => __( 'Border Color', 'cartflows' ),
-								'name'  => 'wcf-field-border-color',
-								'value' => $options['wcf-field-border-color'],
-							)
-						);
-						echo wcf()->meta->get_color_picker_field(
-							array(
-								'label' => __( 'Label Color', 'cartflows' ),
-								'name'  => 'wcf-field-label-color',
-								'value' => $options['wcf-field-label-color'],
-							)
-						);
-
-					?>
-				</div>
-				<div class="wcf-cs-button-options">
-					<?php
-
-						echo wcf()->meta->get_section(
-							array(
-								'label' => __( 'Buttons', 'cartflows' ),
-							)
-						);
-
-						echo wcf()->meta->get_font_family_field(
-							array(
-								'for'   => 'wcf-button',
-								'label' => esc_html__( 'Font Family', 'cartflows' ),
-								'name'  => 'wcf-button-font-family',
-								'value' => $options['wcf-button-font-family'],
-							)
-						);
-
-						echo wcf()->meta->get_font_weight_field(
-							array(
-								'for'   => 'wcf-button',
-								'label' => esc_html__( 'Font Weight', 'cartflows' ),
-								'name'  => 'wcf-button-font-weight',
-								'value' => $options['wcf-button-font-weight'],
-							)
-						);
-
-						echo wcf()->meta->get_select_field(
-							array(
-								'label'   => __( 'Size', 'cartflows' ),
-								'name'    => 'wcf-input-button-size',
-								'value'   => $options['wcf-input-button-size'],
-								'options' => array(
-									'33px'   => esc_html__( 'Extra Small', 'cartflows' ),
-									'38px'   => esc_html__( 'Small', 'cartflows' ),
-									'44px'   => esc_html__( 'Medium', 'cartflows' ),
-									'58px'   => esc_html__( 'Large', 'cartflows' ),
-									'68px'   => esc_html__( 'Extra Large', 'cartflows' ),
-									'custom' => esc_html__( 'Custom', 'cartflows' ),
-								),
-							)
-						);
-
-						echo wcf()->meta->get_number_field(
-							array(
-								'label' => __( 'Top Bottom Spacing', 'cartflows' ),
-								'name'  => 'wcf-submit-tb-padding',
-								'value' => $options['wcf-submit-tb-padding'],
-							)
-						);
-
-						echo wcf()->meta->get_number_field(
-							array(
-								'label' => __( 'Left Right Spacing', 'cartflows' ),
-								'name'  => 'wcf-submit-lr-padding',
-								'value' => $options['wcf-submit-lr-padding'],
-							)
-						);
-
-						echo wcf()->meta->get_color_picker_field(
-							array(
-								'label' => __( 'Text Color', 'cartflows' ),
-								'name'  => 'wcf-submit-color',
-								'value' => $options['wcf-submit-color'],
-							)
-						);
-
-						echo wcf()->meta->get_color_picker_field(
-							array(
-								'label' => __( 'Text Hover Color', 'cartflows' ),
-								'name'  => 'wcf-submit-hover-color',
-								'value' => $options['wcf-submit-hover-color'],
-							)
-						);
-
-						echo wcf()->meta->get_color_picker_field(
-							array(
-								'label' => __( 'Background Color', 'cartflows' ),
-								'name'  => 'wcf-submit-bg-color',
-								'value' => $options['wcf-submit-bg-color'],
-							)
-						);
-
-						echo wcf()->meta->get_color_picker_field(
-							array(
-								'label' => __( 'Background Hover Color', 'cartflows' ),
-								'name'  => 'wcf-submit-bg-hover-color',
-								'value' => $options['wcf-submit-bg-hover-color'],
-							)
-						);
-
-						echo wcf()->meta->get_color_picker_field(
-							array(
-								'label' => __( 'Border Color', 'cartflows' ),
-								'name'  => 'wcf-submit-border-color',
-								'value' => $options['wcf-submit-border-color'],
-							)
-						);
-
-						echo wcf()->meta->get_color_picker_field(
-							array(
-								'label' => __( 'Border Hover Color', 'cartflows' ),
-								'name'  => 'wcf-submit-border-hover-color',
-								'value' => $options['wcf-submit-border-hover-color'],
-							)
-						);
-
-					?>
-				</div>
-				<div class="wcf-cs-section-options">
-					<?php
-
-						echo wcf()->meta->get_section(
-							array(
-								'label' => __( 'Sections', 'cartflows' ),
-							)
-						);
-
-						echo wcf()->meta->get_color_picker_field(
-							array(
-								'label' => __( 'Highlight Area Background Color', 'cartflows' ),
-								'name'  => 'wcf-hl-bg-color',
-								'value' => $options['wcf-hl-bg-color'],
-							)
-						);
-
-						echo wcf()->meta->get_hidden_field(
-							array(
-								'name'  => 'wcf-field-google-font-url',
-								'value' => $options['wcf-field-google-font-url'],
-							)
-						);
-					?>
-				</div>
-				<?php do_action( 'cartflows_checkout_style_tab_content', $options, $post_id ); ?> 
-			</div>
-		</div>
-		<?php
+	public function design_tab_style( $options, $post_id ) {
+		include CARTFLOWS_CHECKOUT_DIR . 'includes/meta-views/design-checkout-style-tab.php';
 	}
 
 
